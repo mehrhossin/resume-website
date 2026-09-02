@@ -93,3 +93,25 @@ footer {
   color: white;
   margin-top: 60px;
 }
+
+.contact {
+  background: white;
+  padding: 28px;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.07);
+  border: 1px solid #e5e7eb;
+}
+
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.contact-list li {
+  margin-bottom: 10px;
+  background: #f8fafc;
+  padding: 12px 14px;
+  border-radius: 10px;
+}
+
