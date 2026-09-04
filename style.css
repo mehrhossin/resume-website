@@ -2,55 +2,178 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   font-family: Tahoma, Arial, sans-serif;
-  background: #f5f7fb;
-  color: #1f2937;
+  color: #e5e7eb;
   line-height: 1.9;
+  background: #020617;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* بک‌گراند هندسی و شبکه‌ای */
+.background-network {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(37, 99, 235, 0.35), transparent 28%),
+    radial-gradient(circle at 80% 10%, rgba(14, 165, 233, 0.28), transparent 25%),
+    radial-gradient(circle at 50% 80%, rgba(99, 102, 241, 0.28), transparent 30%),
+    linear-gradient(135deg, #020617 0%, #0f172a 45%, #111827 100%);
+}
+
+/* خطوط شبکه */
+.background-network::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0.35));
+  animation: gridMove 18s linear infinite;
+}
+
+/* اشکال نورانی متحرک */
+.background-network::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background-image:
+    radial-gradient(circle, rgba(96, 165, 250, 0.55) 0 2px, transparent 3px),
+    radial-gradient(circle, rgba(34, 211, 238, 0.4) 0 1px, transparent 3px);
+  background-size: 130px 130px, 90px 90px;
+  background-position: 0 0, 40px 60px;
+  filter: blur(0.2px);
+  opacity: 0.55;
+  animation: particlesMove 26s linear infinite;
+}
+
+@keyframes gridMove {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(42px);
+  }
+}
+
+@keyframes particlesMove {
+  from {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  to {
+    transform: translate3d(80px, -80px, 0) rotate(4deg);
+  }
 }
 
 .container {
   width: min(1100px, 92%);
   margin: auto;
+  position: relative;
+  z-index: 1;
 }
 
+/* بخش اصلی بالای رزومه */
 .hero {
-  background: linear-gradient(135deg, #111827, #2563eb);
   color: white;
-  padding: 80px 0;
+  padding: 95px 0 85px;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* افکت نور پشت عنوان */
+.hero::before {
+  content: "";
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  top: -220px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.42), transparent 65%);
+  z-index: 0;
+}
+
+.hero .container {
+  position: relative;
+  z-index: 1;
 }
 
 .hero h1 {
-  font-size: 42px;
+  font-size: 46px;
   margin-bottom: 10px;
+  letter-spacing: -1px;
+  text-shadow: 0 8px 30px rgba(59, 130, 246, 0.35);
 }
 
 .hero p {
   font-size: 18px;
-  opacity: 0.9;
+  opacity: 0.92;
+  max-width: 850px;
+  margin: 0 auto;
+  color: #dbeafe;
 }
 
 .btn {
   display: inline-block;
-  margin-top: 20px;
-  background: white;
-  color: #1d4ed8;
-  padding: 12px 24px;
-  border-radius: 10px;
+  margin-top: 26px;
+  background: linear-gradient(135deg, #38bdf8, #2563eb);
+  color: white;
+  padding: 12px 28px;
+  border-radius: 999px;
   text-decoration: none;
   font-weight: bold;
+  box-shadow: 0 12px 35px rgba(37, 99, 235, 0.38);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 45px rgba(37, 99, 235, 0.5);
 }
 
 section {
-  margin: 50px 0;
+  margin: 42px 0;
+  background: rgba(15, 23, 42, 0.72);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 22px;
+  padding: 30px;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(14px);
 }
 
 h2 {
   font-size: 28px;
+  margin-top: 0;
   margin-bottom: 20px;
-  color: #111827;
+  color: #f8fafc;
+  position: relative;
+}
+
+h2::after {
+  content: "";
+  display: block;
+  width: 72px;
+  height: 3px;
+  margin-top: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #38bdf8, #2563eb, transparent);
+}
+
+.about p,
+.contact p,
+.project-card p,
+.project-card li {
+  color: #cbd5e1;
 }
 
 .tags,
@@ -62,44 +185,40 @@ h2 {
 
 .tags span,
 .tech span {
-  background: #e0ecff;
-  color: #1d4ed8;
-  padding: 7px 12px;
+  background: rgba(37, 99, 235, 0.16);
+  color: #bfdbfe;
+  border: 1px solid rgba(96, 165, 250, 0.28);
+  padding: 7px 13px;
   border-radius: 999px;
   font-size: 14px;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.tags span:hover,
+.tech span:hover {
+  transform: translateY(-2px);
+  background: rgba(37, 99, 235, 0.28);
 }
 
 .project-card {
-  background: white;
+  background: rgba(2, 6, 23, 0.45);
   padding: 28px;
   border-radius: 18px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.07);
-  border: 1px solid #e5e7eb;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+  border: 1px solid rgba(148, 163, 184, 0.18);
 }
 
 .project-card h3 {
   margin-top: 0;
-  color: #111827;
+  color: #f8fafc;
 }
 
 .project-card ul {
   padding-right: 20px;
 }
 
-footer {
-  text-align: center;
-  padding: 30px;
-  background: #111827;
-  color: white;
-  margin-top: 60px;
-}
-
-.contact {
-  background: white;
-  padding: 28px;
-  border-radius: 18px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.07);
-  border: 1px solid #e5e7eb;
+.project-card strong {
+  color: #e0f2fe;
 }
 
 .contact-list {
@@ -110,8 +229,64 @@ footer {
 
 .contact-list li {
   margin-bottom: 10px;
-  background: #f8fafc;
+  background: rgba(15, 23, 42, 0.62);
+  border: 1px solid rgba(148, 163, 184, 0.16);
   padding: 12px 14px;
-  border-radius: 10px;
+  border-radius: 12px;
+  color: #cbd5e1;
 }
 
+.contact-list strong {
+  color: #e0f2fe;
+}
+
+footer {
+  text-align: center;
+  padding: 32px;
+  color: #cbd5e1;
+  margin-top: 60px;
+  background: rgba(2, 6, 23, 0.82);
+  border-top: 1px solid rgba(148, 163, 184, 0.18);
+  position: relative;
+  z-index: 1;
+}
+
+/* سازگاری با موبایل */
+@media (max-width: 768px) {
+  .hero {
+    padding: 70px 0 55px;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+  }
+
+  .hero p {
+    font-size: 15px;
+  }
+
+  section {
+    padding: 22px;
+    margin: 28px 0;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+
+  .project-card {
+    padding: 22px;
+  }
+}
+
+/* احترام به کاربرانی که انیمیشن کمتر می‌خواهند */
+@media (prefers-reduced-motion: reduce) {
+  .background-network::before,
+  .background-network::after,
+  .btn,
+  .tags span,
+  .tech span {
+    animation: none;
+    transition: none;
+  }
+}
