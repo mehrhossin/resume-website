@@ -280,10 +280,15 @@ footer {
     font-size: 15px;
   }
 
-  section {
-    padding: 22px;
-    margin: 28px 0;
-  }
+ section {
+  margin: 42px 0;
+  background: rgba(15, 23, 42, 0.72);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 22px;
+  padding: 30px;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(14px);
+}
 
   h2 {
     font-size: 24px;
