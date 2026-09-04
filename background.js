@@ -9,7 +9,7 @@ let particleCount;
 const mouse = {
   x: null,
   y: null,
-  radius: 130
+  radius: 135
 };
 
 const scrollForce = {
@@ -23,11 +23,11 @@ function resizeCanvas() {
   height = canvas.height = window.innerHeight;
 
   if (width < 600) {
-    particleCount = 45;
+    particleCount = 42;
   } else if (width < 1000) {
-    particleCount = 70;
+    particleCount = 65;
   } else {
-    particleCount = 95;
+    particleCount = 85;
   }
 
   createParticles();
@@ -37,24 +37,25 @@ function createParticles() {
   particles = [];
 
   for (let i = 0; i < particleCount; i++) {
+    const size = Math.random() * 1.7 + 0.8;
+
     particles.push({
       x: Math.random() * width,
       y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.7,
-      vy: (Math.random() - 0.5) * 0.7,
-      size: Math.random() * 2 + 1,
-      baseSize: Math.random() * 2 + 1
+      vx: (Math.random() - 0.5) * 0.55,
+      vy: (Math.random() - 0.5) * 0.55,
+      size: size,
+      baseSize: size
     });
   }
 }
 
-
-
 function drawParticles() {
   for (const p of particles) {
     const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 5);
-    gradient.addColorStop(0, "rgba(125, 211, 252, 0.95)");
-    gradient.addColorStop(0.45, "rgba(59, 130, 246, 0.45)");
+
+    gradient.addColorStop(0, "rgba(125, 211, 252, 0.85)");
+    gradient.addColorStop(0.45, "rgba(59, 130, 246, 0.35)");
     gradient.addColorStop(1, "rgba(59, 130, 246, 0)");
 
     ctx.fillStyle = gradient;
@@ -62,7 +63,7 @@ function drawParticles() {
     ctx.arc(p.x, p.y, p.size * 4, 0, Math.PI * 2);
     ctx.fill();
 
-    ctx.fillStyle = "rgba(219, 234, 254, 0.95)";
+    ctx.fillStyle = "rgba(219, 234, 254, 0.9)";
     ctx.beginPath();
     ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
     ctx.fill();
@@ -70,7 +71,7 @@ function drawParticles() {
 }
 
 function connectParticles() {
-  const maxDistance = width < 700 ? 105 : 145;
+  const maxDistance = width < 700 ? 95 : 135;
 
   for (let i = 0; i < particles.length; i++) {
     for (let j = i + 1; j < particles.length; j++) {
@@ -81,8 +82,8 @@ function connectParticles() {
       if (distance < maxDistance) {
         const opacity = 1 - distance / maxDistance;
 
-        ctx.strokeStyle = `rgba(96, 165, 250, ${opacity * 0.38})`;
-        ctx.lineWidth = opacity * 1.3;
+        ctx.strokeStyle = `rgba(96, 165, 250, ${opacity * 0.32})`;
+        ctx.lineWidth = opacity * 1.1;
 
         ctx.beginPath();
         ctx.moveTo(particles[i].x, particles[i].y);
@@ -111,8 +112,8 @@ function updateParticles() {
         const force = (mouse.radius - distance) / mouse.radius;
         const angle = Math.atan2(dy, dx);
 
-        p.x += Math.cos(angle) * force * 4.2;
-        p.y += Math.sin(angle) * force * 4.2;
+        p.x += Math.cos(angle) * force * 4.4;
+        p.y += Math.sin(angle) * force * 4.4;
       }
     }
 
@@ -121,7 +122,7 @@ function updateParticles() {
       const dx = p.x - scrollForce.x;
       const dy = p.y - scrollForce.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
-      const radius = 230;
+      const radius = 220;
 
       if (distance < radius) {
         const force = (radius - distance) / radius;
@@ -132,18 +133,16 @@ function updateParticles() {
       }
     }
 
-    // محدود نگه‌داشتن داخل صفحه
     p.x = Math.max(0, Math.min(width, p.x));
     p.y = Math.max(0, Math.min(height, p.y));
   }
 
-  scrollForce.power *= 0.92;
+  scrollForce.power *= 0.91;
 }
 
 function animate() {
   ctx.clearRect(0, 0, width, height);
 
-  
   updateParticles();
   connectParticles();
   drawParticles();
