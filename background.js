@@ -48,31 +48,7 @@ function createParticles() {
   }
 }
 
-function drawBackgroundGrid() {
-  const gridSize = 46;
 
-  ctx.save();
-  ctx.strokeStyle = "rgba(148, 163, 184, 0.055)";
-  ctx.lineWidth = 1;
-
-  const offset = (Date.now() * 0.015) % gridSize;
-
-  for (let x = -gridSize; x < width + gridSize; x += gridSize) {
-    ctx.beginPath();
-    ctx.moveTo(x + offset, 0);
-    ctx.lineTo(x + offset, height);
-    ctx.stroke();
-  }
-
-  for (let y = -gridSize; y < height + gridSize; y += gridSize) {
-    ctx.beginPath();
-    ctx.moveTo(0, y + offset);
-    ctx.lineTo(width, y + offset);
-    ctx.stroke();
-  }
-
-  ctx.restore();
-}
 
 function drawParticles() {
   for (const p of particles) {
@@ -167,7 +143,7 @@ function updateParticles() {
 function animate() {
   ctx.clearRect(0, 0, width, height);
 
-  drawBackgroundGrid();
+  
   updateParticles();
   connectParticles();
   drawParticles();
