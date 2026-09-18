@@ -527,18 +527,19 @@
             <div class="card" style="animation-delay: 0.2s">
                 <h2>💻 مهارت‌ها</h2>
                 <div class="skills">
-                    <span class="skill-tag">Unity 3D</span>
-                    <span class="skill-tag">C#</span>
-                    <span class="skill-tag">C++</span>
                     <span class="skill-tag">ASP.NET Core</span>
+                    <span class="skill-tag">C#</span>
+                    <span class="skill-tag">Unity 3D</span>
+                    <span class="skill-tag">C++</span>
                     <span class="skill-tag">WinForms</span>
                     <span class="skill-tag">MySQL</span>
+                    <span class="skill-tag">Dapper</span>
                     <span class="skill-tag">REST API</span>
+                    <span class="skill-tag">JWT</span>
+                    <span class="skill-tag">SignalR</span>
                     <span class="skill-tag">OpenCV</span>
                     <span class="skill-tag">Kinect SDK</span>
                     <span class="skill-tag">AVR/STM32</span>
-                    <span class="skill-tag">Serial Communication</span>
-                    <span class="skill-tag">Computer Vision</span>
                     <span class="skill-tag">NFC</span>
                     <span class="skill-tag">Python</span>
                     <span class="skill-tag">Java</span>
@@ -564,8 +565,113 @@
 
         <!-- محتوای اصلی -->
         <main class="main-content">
-            <!-- سوابق تدریس -->
+            <!-- پروژه‌های اصلی Backend (سه پروژه اول) -->
             <div class="card" style="animation-delay: 0.4s">
+                <h2 class="category-title">💼 پروژه‌های اصلی Backend و مدیریت شهربازی</h2>
+
+                <!-- پروژه 1: سرور مرکزی اینفینیتی -->
+                <div class="project">
+                    <img src="image/infinity-server.jpg" alt="سرور مرکزی اینفینیتی" class="project-image">
+                    <div class="project-content">
+                        <h3>⚡ سرور مرکزی مدیریت شهربازی Infinity</h3>
+                        <p>
+                            طراحی و پیاده‌سازی کامل سرور داخلی تحت شبکه Local/LAN برای اتوماسیون و مدیریت عملیات
+                            شهربازی Infinity، شامل فروش، مدیریت کاربران، مشتریان، دستبندهای NFC، کیف پول دیجیتال،
+                            صندوق، بازی‌ها، دستگاه‌ها، گیت‌های ورود و خروج، تخفیف‌ها، لیدربورد و گزارشات مدیریتی.
+                        </p>
+                        <div class="project-meta">
+                            <strong>کارفرما:</strong> شرکت رابین‌تک<br>
+                            <strong>مدت زمان:</strong> حدود ۴ ماه، شامل توسعه اولیه، رفع خطا، بهینه‌سازی و توسعه تکمیلی<br>
+                            <strong>نقش:</strong> طراح، توسعه‌دهنده بک‌اند و مجری کامل پروژه<br>
+                            <strong>نوع اجرا:</strong> سرور داخلی تحت شبکه Local/LAN<br>
+                            <strong>حوزه کاربرد:</strong> مدیریت یکپارچه عملیات شهربازی، پرداخت‌ها، کاربران، دستگاه‌ها و گزارشات
+                        </div>
+                        <div class="skills">
+                            <span class="skill-tag">ASP.NET Core Web API</span>
+                            <span class="skill-tag">C#</span>
+                            <span class="skill-tag">MySQL</span>
+                            <span class="skill-tag">Dapper</span>
+                            <span class="skill-tag">JWT</span>
+                            <span class="skill-tag">SignalR</span>
+                            <span class="skill-tag">Serilog</span>
+                            <span class="skill-tag">NFC Integration</span>
+                            <span class="skill-tag">Wallet System</span>
+                            <span class="skill-tag">Local/LAN</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- پروژه 2: اپلیکیشن دسکتاپ -->
+                <div class="project">
+                    <img src="image/rabintech-desktop.jpg" alt="اپلیکیشن دسکتاپ مدیریت" class="project-image">
+                    <div class="project-content">
+                        <h3>🖥️ اپلیکیشن دسکتاپ مدیریت شهربازی RabinTech</h3>
+                        <p>
+                            طراحی و توسعه اپلیکیشن دسکتاپ مدیریتی برای کنترل عملیات شهربازی در بستر شبکه داخلی،
+                            شامل مدیریت مشتریان، دستبندهای NFC، کیف پول دیجیتال، صندوق، شیفت‌های کاری، تخفیف‌ها،
+                            بازی‌ها، دستگاه‌ها، لاکرها، کیوسک‌ها، ورود و خروج و گزارشات مالی. این نرم‌افزار با معماری
+                            API-Driven پیاده‌سازی شده و از احراز هویت، مدیریت نقش‌ها و ارتباط پایدار با سرور مرکزی پشتیبانی می‌کند.
+                        </p>
+                        <div class="project-meta">
+                            <strong>کارفرما:</strong> شرکت رابین‌تک<br>
+                            <strong>نوع اجرا:</strong> اپلیکیشن دسکتاپ تحت شبکه Local/LAN<br>
+                            <strong>نقش:</strong> توسعه‌دهنده اصلی Desktop Client و پیاده‌سازی فرم‌ها، سرویس‌ها و منطق ارتباط با API<br>
+                            <strong>معماری:</strong> WinForms Client متصل به Backend API با مدیریت توکن و سطح دسترسی<br>
+                            <strong>قابلیت‌های کلیدی:</strong> مدیریت NFC، کیف پول، POS، صندوق، کیوسک، دستگاه‌ها، بازی‌ها و گزارشات
+                        </div>
+                        <div class="skills">
+                            <span class="skill-tag">C#</span>
+                            <span class="skill-tag">WinForms</span>
+                            <span class="skill-tag">REST API</span>
+                            <span class="skill-tag">HttpClient</span>
+                            <span class="skill-tag">JWT Authentication</span>
+                            <span class="skill-tag">RBAC</span>
+                            <span class="skill-tag">NFC Integration</span>
+                            <span class="skill-tag">Wallet System</span>
+                            <span class="skill-tag">POS Integration</span>
+                            <span class="skill-tag">Kiosk Mode</span>
+                            <span class="skill-tag">Cash Register</span>
+                            <span class="skill-tag">Local/LAN</span>
+                            <span class="skill-tag">Async/Await</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- پروژه 3: کلاینت Unity تاچ -->
+                <div class="project">
+                    <img src="image/rabintech-touch.jpg" alt="کلاینت تاچ Unity" class="project-image">
+                    <div class="project-content">
+                        <h3>🎮 کلاینت تاچ Unity برای دستگاه‌های شهربازی</h3>
+                        <p>
+                            طراحی و توسعه کلاینت Unity برای اجرا روی دستگاه‌های All-in-One تاچ در شهربازی.
+                            این نرم‌افزار با اتصال به سرور مرکزی، بازیکنان را از طریق دستبند NFC شناسایی می‌کند،
+                            موجودی کیف پول را بررسی می‌کند، امکان انتخاب بازی و بازیکنان گروهی را فراهم می‌سازد
+                            و پس از کسر شارژ، مجوز شروع بازی را برای دستگاه صادر می‌کند.
+                        </p>
+                        <div class="project-meta">
+                            <strong>کارفرما:</strong> شرکت رابین‌تک<br>
+                            <strong>نوع اجرا:</strong> کلاینت Unity مخصوص دستگاه‌های تاچ All-in-One<br>
+                            <strong>نقش:</strong> توسعه‌دهنده کلاینت Unity و پیاده‌سازی ارتباط با API، NFC و جریان شروع بازی<br>
+                            <strong>قابلیت‌های کلیدی:</strong> شناسایی NFC، انتخاب بازی، نوبت‌دهی بازیکنان، مدیریت گروهی و کنترل شروع Session
+                        </div>
+                        <div class="skills">
+                            <span class="skill-tag">Unity</span>
+                            <span class="skill-tag">C#</span>
+                            <span class="skill-tag">UnityWebRequest</span>
+                            <span class="skill-tag">REST API</span>
+                            <span class="skill-tag">NFC Integration</span>
+                            <span class="skill-tag">Touch UI</span>
+                            <span class="skill-tag">All-in-One Device</span>
+                            <span class="skill-tag">JWT Authentication</span>
+                            <span class="skill-tag">Game Session</span>
+                            <span class="skill-tag">State Machine</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- سوابق تدریس -->
+            <div class="card" style="animation-delay: 0.5s">
                 <h2>🎓 سوابق تدریس</h2>
                 
                 <h3>📍 مراکز تدریس:</h3>
@@ -590,7 +696,7 @@
             </div>
 
             <!-- افتخارات -->
-            <div class="card" style="animation-delay: 0.5s">
+            <div class="card" style="animation-delay: 0.6s">
                 <h2>🏆 افتخارات و جوایز</h2>
                 
                 <div class="award-item">
@@ -619,10 +725,10 @@
             </div>
 
             <!-- پروژه‌های بازی‌سازی Unity -->
-            <div class="card" style="animation-delay: 0.6s">
+            <div class="card" style="animation-delay: 0.7s">
                 <h2 class="category-title">🎮 پروژه‌های بازی‌سازی Unity</h2>
 
-                <!-- پروژه 1: اسپید ران -->
+                <!-- پروژه: اسپید ران -->
                 <div class="project">
                     <img src="image/speedrun.jpg" alt="بازی اسپید ران" class="project-image">
                     <div class="project-content">
@@ -630,18 +736,20 @@
                         <p>
                             توسعه بازی مسابقه‌ای تعاملی با اتصال به سخت‌افزار دستگاه آرکید. بازی شامل سه مسیر با طول‌های متفاوت، 
                             سیستم کوین و اتصال به برد الکترونیک از طریق Serial Port است. برنامه‌نویسی میکروکنترلر با C++ و 
-                            بازی‌سازی با Unity/C#.
+                            بازی‌سازی با Unity/C#. ساخت، کدنویسی و مدیریت صحنه‌ها و سختی‌های بازی با الگوگیری از بازی‌های موجود انجام شده است.
                         </p>
                         <div class="project-meta">
                             <strong>کارفرما:</strong> شرکت رابین‌تک<br>
                             <strong>نقش:</strong> بازی‌ساز، برنامه‌نویس Unity و میکروکنترلر<br>
-                            <strong>تکنولوژی:</strong> Unity, C#, C++, Serial Communication, AVR
+                            <strong>تکنولوژی:</strong> Unity, C#, C++, Serial Communication, AVR<br>
+                            <strong>ویژگی‌ها:</strong> اجرا در ویندوز، سه زمین با مسافت‌های متفاوت، سیستم کوین، قابلیت اضافه کردن بازی سفارشی
                         </div>
                         <div class="skills">
                             <span class="skill-tag">Unity</span>
                             <span class="skill-tag">C#</span>
                             <span class="skill-tag">C++</span>
                             <span class="skill-tag">Serial Port</span>
+                            <span class="skill-tag">AVR</span>
                         </div>
                         <div class="project-links">
                             <a href="https://s33.picofile.com/file/8484015492/1_motor.mp4.html" target="_blank" class="btn-video">🎬 مشاهده ویدیو</a>
@@ -649,23 +757,26 @@
                     </div>
                 </div>
 
-                <!-- پروژه 2: موتور بایک مینی -->
+                <!-- پروژه: موتور بایک مینی -->
                 <div class="project">
                     <img src="image/motorbike.jpg" alt="بازی موتور بایک مینی" class="project-image">
                     <div class="project-content">
                         <h3>🏍️ بازی موتور بایک مینی (Mini Motorbike)</h3>
                         <p>
-                            بازی شبیه‌ساز موتورسواری با ۱۰ موتور متفاوت و ۴ مسیر با طول‌های مختلف. طراحی کامل صحنه‌ها، 
-                            گرافیک و مدیریت سختی بازی. اتصال به دستگاه فیزیکی موتور از طریق برد الکترونیک و Serial Port.
+                            بازی شبیه‌ساز موتورسواری با ۱۰ موتور متفاوت و زیبا و ۴ مسیر با طول‌های مختلف. طراحی کامل صحنه‌ها، 
+                            جانمایی اشیا، گرافیک صحنه، انتخاب صحنه‌ها و مدیریت سختی بازی. اتصال به دستگاه فیزیکی موتور از طریق برد الکترونیک و Serial Port.
+                            استفاده از عکس‌ها، متریال‌ها و صداهای رایگان و خریداری شده.
                         </p>
                         <div class="project-meta">
                             <strong>کارفرما:</strong> شرکت رابین‌تک<br>
                             <strong>نقش:</strong> بازی‌ساز، طراح صحنه و برنامه‌نویس میکروکنترلر<br>
-                            <strong>تکنولوژی:</strong> Unity, C#, C++, 3D Modeling, Physics Engine
+                            <strong>تکنولوژی:</strong> Unity, C#, C++, 3D Modeling, Physics Engine<br>
+                            <strong>ویژگی‌ها:</strong> اجرا در ویندوز، ۱۰ موتور متفاوت، ۴ زمین با مسافت‌های متفاوت، سیستم کوین
                         </div>
                         <div class="skills">
                             <span class="skill-tag">Unity 3D</span>
                             <span class="skill-tag">C#</span>
+                            <span class="skill-tag">C++</span>
                             <span class="skill-tag">Game Design</span>
                             <span class="skill-tag">AVR</span>
                         </div>
@@ -675,20 +786,21 @@
                     </div>
                 </div>
 
-                <!-- پروژه 3: مجیک وی -->
+                <!-- پروژه: مجیک وی -->
                 <div class="project">
                     <img src="image/magicv.jpg" alt="بازی مجیک وی" class="project-image">
                     <div class="project-content">
                         <h3>✨ بازی مجیک وی (Magic V)</h3>
                         <p>
                             بازی تعاملی کف‌نگار با استفاده از Kinect 2.0 برای تشخیص حرکات بدن. تبدیل کف سالن به صفحه 
-                            لمسی هوشمند با تکنیک Body Tracking دقیق. شامل ۴ بازی مختلف با قابلیت سفارشی‌سازی و اضافه کردن 
-                            بازی‌های جدید.
+                            لمسی هوشمند با تکنیک Body Tracking دقیق و تشخیص همه نقاط بدن. شامل ۴ بازی مختلف به صورت پیش‌فرض 
+                            با قابلیت سفارشی‌سازی و اضافه کردن بازی‌های جدید. بازی روی کف سالن اجرا می‌شود.
                         </p>
                         <div class="project-meta">
                             <strong>کارفرما:</strong> شرکت رابین‌تک<br>
                             <strong>نقش:</strong> بازی‌ساز، برنامه‌نویس Kinect و میکروکنترلر<br>
                             <strong>تکنولوژی:</strong> Unity, Kinect SDK, Body Tracking, C#, C++<br>
+                            <strong>ویژگی‌ها:</strong> اجرا در ویندوز، تشخیص دقیق انسان، تبدیل صفحه به تاچ هوشمند، ۴ بازی پیش‌فرض<br>
                             <strong>لینک محصول:</strong> <a href="https://rabintechco.com/sys/page_pr/pagea.php?i=30" target="_blank" style="color: #a78bfa;">مشاهده در سایت رابین‌تک</a>
                         </div>
                         <div class="skills">
@@ -696,6 +808,7 @@
                             <span class="skill-tag">Kinect SDK</span>
                             <span class="skill-tag">Body Tracking</span>
                             <span class="skill-tag">C#</span>
+                            <span class="skill-tag">C++</span>
                         </div>
                         <div class="project-links">
                             <a href="https://s33.picofile.com/file/8484015542/20240509_171737.mp4.html" target="_blank" class="btn-video">🎬 ویدیو 1</a>
@@ -705,19 +818,21 @@
                     </div>
                 </div>
 
-                <!-- پروژه 4: سندباکس -->
+                <!-- پروژه: سندباکس -->
                 <div class="project">
                     <img src="image/sandbox.jpg" alt="بازی سندباکس" class="project-image">
                     <div class="project-content">
                         <h3>🏖️ بازی سندباکس تعاملی (Interactive Sandbox)</h3>
                         <p>
-                            بازی تعاملی روی شن با استفاده از Kinect برای تشخیص عمق و ارتفاع. تبدیل جابه‌جایی شن به 
-                            محیط بازی واقعی با ۶ صحنه مختلف. پیاده‌سازی الگوریتم‌های پردازش تصویر برای شناسایی دقیق تغییرات سطح.
+                            بازی تعاملی روی شن با استفاده از Kinect برای تشخیص دقیق عمق و ارتفاع. تبدیل جابه‌جایی شن به 
+                            محیط بازی واقعی با ۶ صحنه بازی مختلف به صورت پیش‌فرض. پیاده‌سازی الگوریتم‌های پردازش تصویر برای شناسایی دقیق تغییرات سطح.
+                            قابلیت اضافه کردن بازی در صورت درخواست مشتری به صورت سفارشی.
                         </p>
                         <div class="project-meta">
                             <strong>کارفرما:</strong> شرکت رابین‌تک<br>
                             <strong>نقش:</strong> بازی‌ساز، برنامه‌نویس Depth Detection و میکروکنترلر<br>
                             <strong>تکنولوژی:</strong> Unity, Kinect Depth Sensor, C#, C++, Image Processing<br>
+                            <strong>ویژگی‌ها:</strong> اجرا در ویندوز، تشخیص عمق دقیق، ۶ صحنه بازی، سیستم کوین<br>
                             <strong>لینک محصول:</strong> <a href="https://rabintechco.com/sys/page_pr/pagea.php?i=28" target="_blank" style="color: #a78bfa;">مشاهده در سایت رابین‌تک</a>
                         </div>
                         <div class="skills">
@@ -725,6 +840,7 @@
                             <span class="skill-tag">Kinect</span>
                             <span class="skill-tag">Depth Sensing</span>
                             <span class="skill-tag">C#</span>
+                            <span class="skill-tag">C++</span>
                         </div>
                         <div class="project-links">
                             <a href="https://s33.picofile.com/file/8484015568/20240304_115720.mp4.html" target="_blank" class="btn-video">🎬 ویدیو 1</a>
@@ -734,23 +850,26 @@
                     </div>
                 </div>
 
-                <!-- پروژه 5: نقاشی جادوئی -->
+                <!-- پروژه: نقاشی جادوئی -->
                 <div class="project">
                     <img src="image/painting.jpg" alt="بازی نقاشی جادوئی" class="project-image">
                     <div class="project-content">
                         <h3>🎨 بازی نقاشی جادوئی (Magic Painting)</h3>
                         <p>
                             بازی تعاملی نقاشی با قابلیت رنگ‌آمیزی جادوئی و مینی‌گیم رساندن شکلک‌ها به خانه. 
-                            بخشی از دستگاه هپی تایم با اتصال به برد الکترونیک.
+                            بخشی جدید و اضافه شده به دستگاه بازی جالب هپی تایم با اتصال به برد الکترونیک.
+                            یک زمین نقاشی جادوئی و قسمت دوم شامل رساندن شکلک‌ها به خانه است.
                         </p>
                         <div class="project-meta">
                             <strong>کارفرما:</strong> شرکت رابین‌تک<br>
                             <strong>نقش:</strong> بازی‌ساز و برنامه‌نویس<br>
-                            <strong>تکنولوژی:</strong> Unity, C#, C++, Serial Communication
+                            <strong>تکنولوژی:</strong> Unity, C#, C++, Serial Communication<br>
+                            <strong>ویژگی‌ها:</strong> اجرا در ویندوز، سیستم کوین، قابلیت سفارشی‌سازی
                         </div>
                         <div class="skills">
                             <span class="skill-tag">Unity</span>
                             <span class="skill-tag">C#</span>
+                            <span class="skill-tag">C++</span>
                             <span class="skill-tag">Game Design</span>
                         </div>
                         <div class="project-links">
@@ -759,20 +878,21 @@
                     </div>
                 </div>
 
-                <!-- پروژه 6: دستگاه اینفینیتی -->
+                <!-- پروژه: دستگاه اینفینیتی -->
                 <div class="project">
                     <img src="image/infinity.jpg" alt="دستگاه اینفینیتی" class="project-image">
                     <div class="project-content">
                         <h3>♾️ سیستم بازی کامل دستگاه اینفینیتی (Infinity Gaming System)</h3>
                         <p>
                             توسعه سیستم کامل بازی شامل ۳ بازی مجزا با منوی یکپارچه، سفارشی‌سازی، مدیریت سختی، 
-                            گزارش‌گیری و لیدربورد آنلاین. پیاده‌سازی Socket Programming برای مدیریت آنلاین دستگاه‌ها 
-                            و ثبت رکوردها در وب.
+                            گزارش‌گیری از بازی‌ها و دستگاه و لیدربورد آنلاین. پیاده‌سازی Socket Programming برای مدیریت آنلاین دستگاه‌ها 
+                            و ثبت رکوردها در وب. استفاده از وب در صورت نیاز برای ثبت رکورد و قابلیت آپدیت بازی.
                         </p>
                         <div class="project-meta">
                             <strong>کارفرما:</strong> شرکت رابین‌تک<br>
                             <strong>نقش:</strong> بازی‌ساز، برنامه‌نویس Backend و Socket Programming<br>
                             <strong>تکنولوژی:</strong> Unity, C#, Socket Programming, Web API, Android/Windows<br>
+                            <strong>ویژگی‌ها:</strong> ۳ بازی مجزا، منو یکپارچه، لیدربورد آنلاین، قابلیت آپدیت، اجرا در اندروید و ویندوز<br>
                             <strong>لینک محصول:</strong> <a href="https://rabintechco.com/sys/page_pr/pagea.php?i=23#top" target="_blank" style="color: #a78bfa;">مشاهده در سایت رابین‌تک</a>
                         </div>
                         <div class="skills">
@@ -780,6 +900,7 @@
                             <span class="skill-tag">Socket Programming</span>
                             <span class="skill-tag">Web API</span>
                             <span class="skill-tag">Android</span>
+                            <span class="skill-tag">C#</span>
                         </div>
                         <div class="project-links">
                             <a href="https://s33.picofile.com/file/8484015592/20250316_130606.mp4.html" target="_blank" class="btn-video">🎬 ویدیو دمو</a>
@@ -788,20 +909,22 @@
                     </div>
                 </div>
 
-                <!-- پروژه 7: فانی بال -->
+                <!-- پروژه: فانی بال -->
                 <div class="project">
                     <img src="image/funnyball.jpg" alt="بازی فانی بال" class="project-image">
                     <div class="project-content">
                         <h3>⚽ بازی فانی بال (Funny Ball)</h3>
                         <p>
-                            بازنویسی کامل بازی Funny Ball با قابلیت اجرا روی دیوار استخر توپ و دستگاه تاچ. 
+                            بازنویسی کامل بازی Funny Ball از ابتدا با قابلیت اجرا روی دیوار استخر توپ و دستگاه تاچ. 
                             پیاده‌سازی سیستم تشخیص برخورد توپ با استفاده از OpenCV و پردازش تصویر. شامل ۶ بازی مختلف 
-                            با سیستم کوین و تیکت.
+                            (۵ بازی با الگوگیری از بازی فانی بال چینی و ۱ بازی طراحی شخصی) با سیستم کوین و تیکت. 
+                            بازی به دو صورت روی دستگاه یا دیوار استخر توپ اجرا می‌شود. تاچ کردن مانیتور با ورودی مادون قرمز و دیوار با استفاده از دوربین.
                         </p>
                         <div class="project-meta">
                             <strong>کارفرما:</strong> شرکت رابین‌تک<br>
                             <strong>نقش:</strong> بازی‌ساز، برنامه‌نویس Computer Vision و میکروکنترلر<br>
                             <strong>تکنولوژی:</strong> Unity, OpenCV, C#, C++, Image Processing, IR Sensor<br>
+                            <strong>ویژگی‌ها:</strong> اجرا در ویندوز/اندروید، ۶ بازی مختلف، تشخیص توپ با دوربین، سیستم کوین و تیکت<br>
                             <strong>لینک محصول:</strong> 
                             <a href="https://rabintechco.com/sys/page_pr/pagea.php?i=13" target="_blank" style="color: #a78bfa;">دستگاه</a> | 
                             <a href="https://rabintechco.com/sys/page_pr/pagea.php?i=29" target="_blank" style="color: #a78bfa;">دیوار</a>
@@ -811,6 +934,7 @@
                             <span class="skill-tag">OpenCV</span>
                             <span class="skill-tag">Computer Vision</span>
                             <span class="skill-tag">C#</span>
+                            <span class="skill-tag">C++</span>
                         </div>
                         <div class="project-links">
                             <a href="https://s33.picofile.com/file/8484015626/VID_20240818_074402.mp4.html" target="_blank" class="btn-video">🎬 ویدیو 1</a>
@@ -820,20 +944,21 @@
                     </div>
                 </div>
 
-                <!-- پروژه 8: شوت فری -->
+                <!-- پروژه: شوت فری -->
                 <div class="project">
                     <img src="image/shootfree.jpg" alt="بازی شوت فری" class="project-image">
                     <div class="project-content">
                         <h3>⚽ بازی شوت فری تعاملی (Interactive Shoot Free)</h3>
                         <p>
                             بازی تعاملی پنالتی و دوز با استفاده از دوربین برای تشخیص موقعیت توپ واقعی. 
-                            بازیکنان با شوت زدن به دیوار، انتخاب بازی و هدف‌گیری را انجام می‌دهند. 
-                            پیاده‌سازی سیستم تشخیص توپ با Computer Vision.
+                            این بازی به صورت تعاملی است و تصویر روی دیوار نشان داده می‌شود. بازیکنان با توپ واقعی و زدن شوت به سمت دیوار، 
+                            عمل انتخاب بازی و شوت به هدف را انجام می‌دهند. این دستگاه دارای دو بازی پنالتی و دوز تعاملی است.
                         </p>
                         <div class="project-meta">
                             <strong>کارفرما:</strong> شرکت رابین‌تک<br>
                             <strong>نقش:</strong> بازی‌ساز و برنامه‌نویس Computer Vision<br>
-                            <strong>تکنولوژی:</strong> Unity, C#, OpenCV, Camera Tracking, Ball Detection
+                            <strong>تکنولوژی:</strong> Unity, C#, OpenCV, Camera Tracking, Ball Detection<br>
+                            <strong>ویژگی‌ها:</strong> تشخیص توپ با دوربین، ۲ بازی تعاملی، اجرا روی دیوار
                         </div>
                         <div class="skills">
                             <span class="skill-tag">Unity</span>
@@ -850,8 +975,8 @@
             </div>
 
             <!-- پروژه‌های سخت‌افزار و نرم‌افزار -->
-            <div class="card" style="animation-delay: 0.7s">
-                <h2 class="category-title">🔧 پروژه‌های سخت‌افزار و نرم‌افزار</h2>
+            <div class="card" style="animation-delay: 0.8s">
+                <h2 class="category-title">🔧 پروژه‌های سخت‌افزار و نرم‌افزار تخصصی</h2>
 
                 <!-- پروژه: آرکید موتور -->
                 <div class="project">
@@ -861,6 +986,8 @@
                         <p>
                             توسعه سیستم تبدیل مکانیک فیزیکی موتور (فرمان، گاز، ترمز) به Joystick استاندارد برای بازی‌های 
                             رایانه‌ای. پیاده‌سازی با میکروکنترلر AVR و خروجی USB HID سازگار با تمام بازی‌های Windows.
+                            این پروژه تبدیل مکانیک موتور (جهت چپ و راست) به جوی استیک، تبدیل گاز و ترمز به جوی استیک بازی به صورت XYZ 
+                            و خروجی آن به ویندوز است. حرکت گاز، ترمز و چپ راست به دسته بازی تبدیل شده و به همه کامپیوترها و بازی‌ها سازگار است.
                         </p>
                         <div class="project-meta">
                             <strong>کارفرما:</strong> شرکت رابین‌تک<br>
@@ -888,6 +1015,7 @@
                         <h3>🏎️ ساخت فرمان سفارشی (Custom Steering Wheel)</h3>
                         <p>
                             طراحی و پیاده‌سازی فرمان بازی با مکانیزم واقعی شامل گاز، ترمز و ۱۰ دکمه. 
+                            تبدیل برد سخت‌افزاری با مکانیزم فرمان ماشین به جوی استیک بازی برای انواع بازی‌های ویندوزی.
                             تبدیل سیگنال‌های آنالوگ به Joystick دیجیتال با C# و C++.
                         </p>
                         <div class="project-meta">
@@ -913,8 +1041,9 @@
                     <div class="project-content">
                         <h3>🏷️ سامانه ثبت پلاک و حکاکی لیزر</h3>
                         <p>
-                            توسعه نرم‌افزار مدیریت دستگاه‌ها با ثبت خودکار مشخصات قطعات، اختصاص پلاک یکتا و 
-                            تولید فایل وکتور برای حکاکی لیزر. خروجی سازگار با دستگاه‌های لیزر صنعتی.
+                            توسعه نرم‌افزار مدیریت دستگاه‌ها با ثبت خودکار مشخصات قطعات و مصنوعات، 
+                            اختصاص خودکار پلاک یکتا برای هر دستگاه و تولید فایل وکتور برای حکاکی لیزر. 
+                            ایجاد فایل سازگار با دستگاه لیزر به‌صورت خودکار.
                         </p>
                         <div class="project-meta">
                             <strong>کارفرما:</strong> شرکت رابین‌تک<br>
@@ -925,6 +1054,7 @@
                             <span class="skill-tag">C#</span>
                             <span class="skill-tag">Vector Graphics</span>
                             <span class="skill-tag">Database</span>
+                            <span class="skill-tag">Laser Integration</span>
                         </div>
                     </div>
                 </div>
@@ -934,8 +1064,9 @@
                     <div class="project-content">
                         <h3>🖥️ نرم‌افزار مدیریت و اتوماسیون</h3>
                         <p>
-                            طراحی سیستم اجرای خودکار رفتارها (حرکت موس، کیبورد) در شروع بازی‌ها، 
-                            نگه‌داشتن فوکوس برنامه‌ها و محدودسازی دسترسی‌های غیرمجاز برای دستگاه‌های آرکید.
+                            طراحی نرم‌افزار برای اجرای رفتارهای خودکار (حرکت موس، کیبورد و انتخاب‌ها) در شروع برخی بازی‌ها.
+                            قابلیت نگه‌داشتن فوکوس روی نرم‌افزارهای مشخص‌شده توسط شرکت و محدود کردن اجرای برنامه‌ها یا رفتارهای غیرمجاز 
+                            طبق سیاست شرکت برای دستگاه‌های آرکید.
                         </p>
                         <div class="project-meta">
                             <strong>کارفرما:</strong> شرکت رابین‌تک<br>
@@ -946,6 +1077,7 @@
                             <span class="skill-tag">C#</span>
                             <span class="skill-tag">Windows API</span>
                             <span class="skill-tag">Automation</span>
+                            <span class="skill-tag">Process Control</span>
                         </div>
                     </div>
                 </div>
@@ -956,8 +1088,9 @@
                     <div class="project-content">
                         <h3>📡 تبدیل سطوح بزرگ به تاچ (Interactive Touch Surface)</h3>
                         <p>
-                            توسعه سرویس نرم‌افزاری مبتنی بر لیزر اسکنر برای تبدیل دیوار یا زمین به سطح لمسی 
-                            بدون نیاز به دوربین. تست موفق روی سطوح ۶×۶ متر با پشتیبانی تا ۱۲ متر.
+                            توسعه سرویس نرم‌افزاری مبتنی بر لیزر اسکنر برای تبدیل دیوار یا زمین بزرگ به سطح لمسی 
+                            بدون نیاز به دوربین. شبیه‌سازی تاچ در سیستم‌عامل و نرم‌افزارها. 
+                            تست موفق روی سطوح با ابعاد ۶×۶ متر و پشتیبانی تا ۱۲ متر.
                         </p>
                         <div class="project-meta">
                             <strong>کارفرما:</strong> شرکت رابین‌تک<br>
@@ -968,6 +1101,7 @@
                             <span class="skill-tag">C#</span>
                             <span class="skill-tag">Laser Scanner</span>
                             <span class="skill-tag">Touch Simulation</span>
+                            <span class="skill-tag">Large Surface</span>
                         </div>
                         <div class="project-links">
                             <a href="https://s33.picofile.com/file/8484015692/video_2024_09_15_14_52_55.mp4.html" target="_blank" class="btn-video">🎬 مشاهده ویدیو</a>
@@ -980,7 +1114,8 @@
                     <div class="project-content">
                         <h3>📊 نرم‌افزار کنتور اولتراسونیک (Ultrasonic Gas Flow Meter)</h3>
                         <p>
-                            طراحی نرم‌افزار اندازه‌گیری دبی گاز با سنسورهای اولتراسونیک و میکروکنترلر STM32U4. 
+                            طراحی نرم‌افزار اندازه‌گیری دبی گاز با استفاده از سنسورهای اولتراسونیک.
+                            توسعه سیستم با میکروکنترلر STM32U4. 
                             پروژه تأییدشده توسط شرکت اندازه‌گیری و تولید در ساری.
                         </p>
                         <div class="project-meta">
@@ -1000,59 +1135,14 @@
                     </div>
                 </div>
             </div>
+        </main>
+    </div>
 
-            <!-- پروژه‌های Backend -->
-            <div class="card" style="animation-delay: 0.8s">
-                <h2 class="category-title">💼 پروژه‌های Backend و مدیریت</h2>
+    <!-- فوتر -->
+    <footer>
+        <p>© 2026 مهر حسین | Backend Developer, Unity Game Developer & Robotics Instructor</p>
+        <p style="margin-top: 10px; font-size: 0.9rem;">تمامی حقوق محفوظ است</p>
+    </footer>
+</body>
+</html>
 
-                <!-- پروژه: سرور اینفینیتی -->
-                <div class="project">
-                    <div class="project-content">
-                        <h3>⚡ سرور مرکزی مدیریت شهربازی Infinity</h3>
-                        <p>
-                            طراحی و پیاده‌سازی کامل سرور داخلی تحت شبکه Local/LAN برای اتوماسیون و مدیریت عملیات
-                            شهربازی Infinity، شامل فروش، مدیریت کاربران، مشتریان، دستبندهای NFC، کیف پول دیجیتال،
-                            صندوق، بازی‌ها، دستگاه‌ها، گیت‌های ورود و خروج، تخفیف‌ها، لیدربورد و گزارشات مدیریتی.
-                        </p>
-                        <div class="project-meta">
-                            <strong>کارفرما:</strong> شرکت رابین‌تک<br>
-                            <strong>مدت زمان:</strong> حدود ۴ ماه<br>
-                            <strong>نقش:</strong> طراح و توسعه‌دهنده بک‌اند
-                        </div>
-                        <div class="skills">
-                            <span class="skill-tag">ASP.NET Core</span>
-                            <span class="skill-tag">MySQL</span>
-                            <span class="skill-tag">JWT</span>
-                            <span class="skill-tag">SignalR</span>
-                            <span class="skill-tag">NFC</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- پروژه: اپلیکیشن دسکتاپ -->
-                <div class="project">
-                    <div class="project-content">
-                        <h3>🖥️ اپلیکیشن دسکتاپ مدیریت شهربازی</h3>
-                        <p>
-                            طراحی و توسعه اپلیکیشن دسکتاپ مدیریتی برای کنترل عملیات شهربازی در بستر شبکه داخلی،
-                            شامل مدیریت مشتریان، دستبندهای NFC، کیف پول دیجیتال، صندوق، شیفت‌های کاری، تخفیف‌ها،
-                            بازی‌ها، دستگاه‌ها، لاکرها، کیوسک‌ها و گزارشات مالی.
-                        </p>
-                        <div class="project-meta">
-                            <strong>کارفرما:</strong> شرکت رابین‌تک<br>
-                            <strong>نقش:</strong> توسعه‌دهنده اصلی Desktop Client
-                        </div>
-                        <div class="skills">
-                            <span class="skill-tag">C#</span>
-                            <span class="skill-tag">WinForms</span>
-                            <span class="skill-tag">REST API</span>
-                            <span class="skill-tag">JWT</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- پروژه: کلاینت Unity -->
-                <div class="project">
-                    <div class="project-content">
-                        <h3>🎮 کلاینت تاچ Unity برای دستگاه‌های شهربازی</h3>
-                        <p>
