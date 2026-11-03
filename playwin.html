@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="پروژه PlayWin؛ طراحی و پیاده‌سازی بک‌اند، سرور بازی Unity Headless، کنسول و ارتباط بازی‌ها با سرور توسط مهر حسین.">
+  <meta name="theme-color" content="#0b1320">
+  <title>PlayWin | معماری یکپارچه بازی آنلاین — مهر حسین</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="resume.css">
+</head>
+<body class="case-page">
+  <a class="skip-link" href="#main">رفتن به محتوای اصلی</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="index.html" aria-label="مهر حسین؛ صفحه خانه"><span class="brand-mark" aria-hidden="true">m<span>.</span></span><span>مهر حسین<small dir="ltr">SOFTWARE &amp; INTERACTIVE SYSTEMS</small></span></a>
+      <nav aria-label="مسیر بازگشت"><a href="resume.html#project-playwin">بازگشت به رزومه ↗</a><a href="resume.html#contact">ارتباط با من</a></nav>
+    </div>
+  </header>
+  <main id="main" class="shell case-main">
+    <section class="case-intro" aria-labelledby="case-title">
+      <p class="eyebrow">مطالعه پروژه / بک‌اند، سرور بازی و کنسول</p>
+      <h1 id="case-title"><bdi>PlayWin</bdi><span>معماری یکپارچه یک تجربه بازی آنلاین.</span></h1>
+      <p class="case-lead">زیرساخت بازی آنلاین برای دستگاه‌های فیزیکی آرکید؛ از شناسایی دستگاه و بازیکن تا ورود به لابی، اجرای بازی و ثبت نتیجه.</p>
+      <p>طراحی و پیاده‌سازی بک‌اند و سرور مرکزی، گیم‌سرور، کنسول Unity و ارتباط بازی‌ها با سرور را انجام داده‌ام؛ با تفکیک مسئولیت میان اقتصاد سامانه و گیم‌پلی لحظه‌ای.</p>
+      <div class="case-facts"><div><span>نقش من</span><strong>طراحی و پیاده‌سازی سرتاسری</strong></div><div><span>حوزه</span><strong>بازی آنلاین و دستگاه‌های آرکید</strong></div><div><span>اجزای محصول</span><strong>Backend · Game Server · Console</strong></div></div>
+    </section>
+
+    <figure class="case-architecture">
+      <a href="playwin-architecture.html" aria-label="باز کردن نمودار تعاملی کامل معماری PlayWin"><img src="image/playwin-architecture.svg" width="960" height="640" alt="معماری PlayWin: بک‌اند ASP.NET Core متصل به Redis و MySQL، ارتباط SignalR با کنسول و ارتباط مستقیم Mirror KCP میان کلاینت بازی و سرور Unity Headless" fetchpriority="high"></a>
+      <figcaption>نمای شماتیک معماری بر اساس نمودار پروژه؛ این تصویر رابط زنده سامانه یا نمایش آمار عملیاتی نیست.</figcaption>
+      <a class="button button-secondary" href="playwin-architecture.html">مشاهده نمودار کامل و تعاملی <span aria-hidden="true">↗</span></a>
+    </figure>
+
+    <section class="case-section" aria-labelledby="problem-title">
+      <p class="eyebrow">۰۱ / مسئله</p><h2 id="problem-title">یک مسیر هماهنگ، از دستگاه تا نتیجه بازی.</h2>
+      <p>در یک شبکه از دستگاه‌های بازی، ورود بازیکن، یافتن حریف، انتخاب گیم‌سرور و شروع بازی باید با وضعیت مالی و هویت دستگاه هماهنگ باشد. هم‌زمان، پیام‌های حساس به زمانِ گیم‌پلی به مسیر ارتباطی مخصوص خود نیاز دارند.</p>
+      <p>در PlayWin این جریان میان سه بخش پیاده‌سازی شده است: بک‌اند برای هویت، لابی، اقتصاد و نتیجه؛ سرور Unity برای اجرای بازی و وضعیت روم؛ و کنسول برای تجربه ورود و اجرای بازی روی دستگاه.</p>
+    </section>
+
+    <section class="case-section" aria-labelledby="ownership-title">
+      <p class="eyebrow">۰۲ / نقش و پیاده‌سازی</p><h2 id="ownership-title">مسئولیت در هر سه لایه محصول.</h2>
+      <div class="case-ownership">
+        <article><span class="eyebrow" dir="ltr">BACKEND / ASP.NET CORE 8</span><h3>بک‌اند و سرور مرکزی</h3><p>پیاده‌سازی احراز هویت و جداسازی دسترسی دستگاه، بازیکن و ادمین با REST API و JWT؛ اجرای فرمان‌های اقتصادی در بک‌اند و مدیریت لابی، matchmaking و اعلان نتیجه و کیف پول با SignalR؛ ذخیره داده با MySQL و Dapper و مدیریت صف و وضعیت با Redis و Lua.</p></article>
+        <article><span class="eyebrow" dir="ltr">GAME SERVER / UNITY HEADLESS</span><h3>گیم‌سرور و ارتباط بازی</h3><p>پیاده‌سازی سرور Unity Headless، اتصال شبکه‌ای بازی با Mirror و KCP/UDP، چرخه روم و مسابقه، ارتباط داخلی با بک‌اند و ارسال نتیجه بازی؛ همراه با منطق قطع و اتصال مجدد در جریان بازی.</p></article>
+        <article><span class="eyebrow" dir="ltr">CONSOLE / UNITY</span><h3>کنسول و اجرای بازی روی دستگاه</h3><p>پیاده‌سازی ورود دستگاه و بازیکن، ارتباط با لابی و سرور مرکزی، دریافت اطلاعات نشست و راه‌اندازی بازی از طریق <bdi>GameSession.json</bdi>؛ سپس اتصال کلاینت بازی به گیم‌سرور تعیین‌شده.</p></article>
+      </div>
+    </section>
+
+    <section class="case-section" aria-labelledby="decisions-title">
+      <p class="eyebrow">۰۳ / تصمیم‌های معماری</p><h2 id="decisions-title">مرز روشن میان گیم‌پلی و مدیریت سامانه.</h2>
+      <dl class="case-decisions">
+        <div><dt>مرز مشخص میان فرمان و رویداد</dt><dd>احراز هویت و فرمان‌های اقتصادی از طریق REST API و JWT انجام می‌شوند. SignalR مسئول لابی، matchmaking و اعلان نتیجه و تغییرات کیف پول است؛ Mirror KCP/UDP مسیر مستقیم گیم‌پلی میان کلاینت و گیم‌سرور را فراهم می‌کند.</dd></div>
+        <div><dt>هماهنگی صف و نشست با Redis</dt><dd>صف‌های matchmaking، وضعیت نشست، قفل‌ها و توکن ورود یک‌بارمصرف با Redis و اسکریپت‌های Lua مدیریت می‌شوند؛ اطلاعات ماندگار در MySQL قرار می‌گیرد.</dd></div>
+        <div><dt>مرجعیت بک‌اند در اقتصاد و نتیجه</dt><dd>تراکنش‌های اقتصادی و ثبت نهایی نتیجه در بک‌اند انجام می‌شوند. گیم‌سرور مسئول وضعیت و اجرای بازی است و نتیجه را از مسیر ارتباط داخلی گزارش می‌کند.</dd></div>
+        <div><dt>توجه به چرخه اتصال</dt><dd>جریان قطع ارتباط و بازگشت بازیکن، بازیابی وضعیت نشست و هماهنگی کنسول با سرور در طراحی ارتباطات در نظر گرفته و پیاده‌سازی شده است.</dd></div>
+      </dl>
+    </section>
+
+    <section class="case-section" aria-labelledby="flow-title">
+      <p class="eyebrow">۰۴ / جریان اجرا</p><h2 id="flow-title">از ورود بازیکن تا ثبت نتیجه.</h2>
+      <ol class="case-flow"><li><strong>ورود و شناسایی</strong><span>کنسول، هویت دستگاه و بازیکن را با بک‌اند هماهنگ می‌کند.</span></li><li><strong>لابی و matchmaking</strong><span>صف، نشست و تخصیص گیم‌سرور در لایه مرکزی مدیریت می‌شوند.</span></li><li><strong>اجرای بازی</strong><span>کنسول اطلاعات نشست را به بازی می‌دهد؛ کلاینت از طریق Mirror KCP به سرور Unity متصل می‌شود.</span></li><li><strong>پایان و نتیجه</strong><span>گیم‌سرور نتیجه را گزارش می‌کند؛ بک‌اند ثبت نهایی و رویدادهای مرتبط با اقتصاد و نتیجه را انجام می‌دهد.</span></li></ol>
+    </section>
+
+    <section class="case-section" aria-labelledby="stack-title">
+      <p class="eyebrow">۰۵ / فناوری و مستندسازی</p><h2 id="stack-title">یک قرارداد مشترک برای اجزای محصول.</h2>
+      <p>معماری کلی، جریان ارتباطات و قراردادهای API و SignalR برای هماهنگی بک‌اند، گیم‌سرور و کنسول مستند شده‌اند. نمودار تعاملی، همین اجزا و مسیرهای ارتباطی را نمایش می‌دهد؛ نام بازی‌ها، شمار دستگاه‌ها و وضعیت‌ها در آن نمونه‌های توضیحی هستند.</p>
+      <ul class="tags" aria-label="فناوری‌های PlayWin"><li><bdi>ASP.NET Core 8</bdi></li><li><bdi>C#</bdi></li><li><bdi>MySQL</bdi></li><li><bdi>Dapper</bdi></li><li><bdi>Redis + Lua</bdi></li><li><bdi>SignalR</bdi></li><li><bdi>JWT</bdi></li><li><bdi>Unity Headless</bdi></li><li><bdi>Mirror</bdi></li><li><bdi>KCP / UDP</bdi></li></ul>
+      <div class="actions"><a class="button button-primary" href="playwin-architecture.html">دیدن معماری تعاملی ↗</a><a class="button button-secondary" href="resume.html#contact">گفت‌وگو درباره همکاری ↗</a></div>
+    </section>
+  </main>
+  <footer class="site-footer shell"><a class="footer-name" href="resume.html#project-playwin">بازگشت به رزومه<span>مهر حسین · توسعه‌دهنده نرم‌افزار و سیستم‌های تعاملی</span></a><a href="index.html">صفحه خانه ↗</a></footer>
+</body>
+</html>

@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlayWin — نمودار تعاملی معماری | مهر حسین</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background:#070b14;
+  font-family:'Segoe UI',Tahoma,sans-serif;
+  color:#e0e6f0;
+  min-height:100vh;
+  overflow-x:hidden;
+
+}
+
+/* ═══ HEADER ═══ */
+.page-header { text-align:center; padding:20px 20px 10px; }
+.page-title  { font-size:20px; font-weight:700; color:#7dd3fc; text-shadow:0 0 24px rgba(125,211,252,.35); margin-bottom:4px; }
+.page-sub    { font-size:11px; color:#a9b9cc; letter-spacing:1px; }
+
+/* ═══ TOOLBAR ═══ */
+.toolbar {
+  display:flex; justify-content:center; gap:8px;
+  padding:8px 20px 12px; flex-wrap:wrap;
+}
+.tb-btn {
+  background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1);
+  color:#94a3b8; font-size:10px; padding:5px 12px; border-radius:8px;
+  cursor:pointer; transition:all .2s; display:flex; align-items:center; gap:5px;
+}
+.tb-btn:hover { background:rgba(99,102,241,.2); border-color:#6366f1; color:#a5b4fc; }
+.tb-btn.active { background:rgba(99,102,241,.25); border-color:#6366f1; color:#a5b4fc; }
+
+/* ═══ CANVAS ═══ */
+.canvas {
+  position:relative; width:max(1500px,100%); max-width:1700px; min-width:1500px;
+  margin:0 auto; padding:0 16px 80px;
+  min-height:1100px;
+}
+.svg-layer {
+  position:absolute; top:0; left:0;
+  width:100%; height:100%;
+  pointer-events:none; z-index:1;
+}
+
+/* ═══ DRAGGABLE CARD ═══ */
+.drag-card {
+  position:absolute;
+  z-index:10;
+  cursor:grab;
+  transition:box-shadow .2s;
+}
+.drag-card:active { cursor:grabbing; }
+.drag-card.dragging {
+  z-index:999;
+  cursor:grabbing;
+  filter:brightness(1.15);
+}
+.drag-card.dragging * { pointer-events:none; }
+
+/* drag handle نوار بالای هر کارت */
+.drag-handle {
+  position:absolute;
+  top:0; left:0; right:0;
+  height:8px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);
+  border-radius:12px 12px 0 0;
+  cursor:grab;
+  z-index:5;
+  display:flex; align-items:center; justify-content:center;
+}
+.drag-handle::after {
+  content:'⠿';
+  font-size:10px; color:rgba(255,255,255,.15);
+  letter-spacing:2px;
+}
+.drag-card:hover .drag-handle {
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent);
+}
+.drag-card:hover .drag-handle::after { color:rgba(255,255,255,.3); }
+
+/* ═══ LAYER ZONES (راهنمای لایه‌ها) ═══ */
+.layer-zone {
+  position:absolute; left:0; right:0;
+  border:1px dashed rgba(255,255,255,.04);
+  border-radius:12px; pointer-events:none;
+  display:flex; align-items:flex-start; justify-content:flex-end;
+  padding:6px 10px;
+}
+.zone-label {
+  font-size:8px; font-weight:600; letter-spacing:2px;
+  text-transform:uppercase; color:#a9b9cc;
+}
+
+/* ═══ ADMIN PANEL ═══ */
+.admin-panel {
+  background:linear-gradient(145deg,#1a1530 0%,#100d20 100%);
+  border:1.5px solid #6d28d9; border-radius:12px;
+  width:188px; overflow:hidden;
+  box-shadow:0 0 18px rgba(109,40,217,.18);
+}
+.admin-panel:hover { box-shadow:0 0 28px rgba(109,40,217,.32); }
+
+.ap-head {
+  background:rgba(109,40,217,.18);
+  border-bottom:1px solid rgba(109,40,217,.25);
+  padding:9px 11px; display:flex; align-items:center; gap:8px;
+}
+.ap-icon {
+  width:28px; height:28px; border-radius:7px;
+  background:rgba(109,40,217,.25);
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; flex-shrink:0;
+}
+.ap-title { font-size:11px; font-weight:700; color:#c4b5fd; }
+.ap-role  { font-size:9px; color:#b9a5e8; margin-top:1px; }
+.ap-body  { padding:8px 9px; }
+
+.ep {
+  display:flex; align-items:center; gap:5px;
+  padding:3px 5px; border-radius:5px; margin-bottom:3px;
+  background:rgba(255,255,255,.025);
+  border:1px solid rgba(255,255,255,.04);
+}
+.ep:last-child { margin-bottom:0; }
+.m {
+  font-size:7px; font-weight:700; padding:1px 4px;
+  border-radius:3px; flex-shrink:0; letter-spacing:.3px;
+}
+.GET    { background:rgba(34,197,94,.15);  color:#4ade80; }
+.POST   { background:rgba(249,115,22,.15); color:#fb923c; }
+.PUT    { background:rgba(234,179,8,.15);  color:#fbbf24; }
+.PATCH  { background:rgba(59,130,246,.15); color:#60a5fa; }
+.DELETE { background:rgba(239,68,68,.15);  color:#f87171; }
+.WS     { background:rgba(20,184,166,.15); color:#2dd4bf; }
+.INT    { background:rgba(245,158,11,.15); color:#fbbf24; }
+.ep-path { font-size:8px; color:#b2c0d0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+/* ═══ BACKEND ═══ */
+.backend-box {
+  background:linear-gradient(135deg,#0f2540 0%,#091a30 100%);
+  border:2px solid #2563eb; border-radius:16px;
+  padding:16px 24px 18px; width:720px;
+  box-shadow:0 0 40px rgba(37,99,235,.2); position:relative;
+}
+.backend-box::before {
+  content:''; position:absolute; inset:-2px; border-radius:18px;
+  background:linear-gradient(135deg,#3b82f6,#1d4ed8,#3b82f6);
+  z-index:-1; opacity:.2; animation:pb 3s ease-in-out infinite;
+}
+@keyframes pb { 0%,100%{opacity:.12} 50%{opacity:.35} }
+.be-title {
+  font-size:14px; font-weight:700; color:#93c5fd;
+  text-align:center; margin-bottom:12px;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.online-badge {
+  background:rgba(34,197,94,.2); border:1px solid rgba(34,197,94,.4);
+  border-radius:20px; padding:1px 8px;
+  font-size:9px; font-weight:700; color:#86efac;
+}
+.be-grid {
+  display:grid; grid-template-columns:repeat(5,1fr);
+  gap:5px; margin-bottom:10px;
+}
+.be-chip {
+  background:rgba(37,99,235,.1); border:1px solid rgba(37,99,235,.22);
+  border-radius:6px; padding:5px 6px;
+  font-size:9px; color:#bfdbfe; text-align:center;
+}
+.be-chip.g { background:rgba(34,197,94,.08);  border-color:rgba(34,197,94,.2);  color:#86efac; }
+.be-chip.p { background:rgba(168,85,247,.08); border-color:rgba(168,85,247,.2); color:#d8b4fe; }
+.be-chip.o { background:rgba(249,115,22,.08); border-color:rgba(249,115,22,.2); color:#fdba74; }
+.be-chip.t { background:rgba(20,184,166,.08); border-color:rgba(20,184,166,.2); color:#99f6e4; }
+.be-chip.r { background:rgba(239,68,68,.08);  border-color:rgba(239,68,68,.2);  color:#fca5a5; }
+.be-chip.y { background:rgba(245,158,11,.08); border-color:rgba(245,158,11,.2); color:#fde68a; }
+.be-internal {
+  background:rgba(245,158,11,.06);
+  border:1px solid rgba(245,158,11,.18);
+  border-radius:8px; padding:6px 10px;
+  display:flex; gap:10px; flex-wrap:wrap; justify-content:center;
+}
+.int-ep { display:flex; align-items:center; gap:4px; font-size:8px; color:#c8c0b8; }
+.be-signalr {
+  background:rgba(20,184,166,.05);
+  border:1px solid rgba(20,184,166,.18);
+  border-radius:8px; padding:6px 10px; margin-top:6px;
+  display:flex; gap:10px; flex-wrap:wrap; justify-content:center;
+}
+.sr-ep { display:flex; align-items:center; gap:4px; font-size:8px; color:#5eead4; }
+
+/* ═══ GAME SERVER ═══ */
+.gs {
+  background:linear-gradient(135deg,#0f1f0f 0%,#0a150a 100%);
+  border:1.5px solid #16a34a; border-radius:12px;
+  padding:12px 13px; width:220px;
+  box-shadow:0 0 18px rgba(22,163,74,.12);
+}
+.gs.sky   { border-color:#0891b2; box-shadow:0 0 18px rgba(8,145,178,.12); }
+.gs.snake { border-color:#9333ea; box-shadow:0 0 18px rgba(147,51,234,.12); }
+.gs-head {
+  display:flex; align-items:center; gap:7px;
+  margin-bottom:8px; padding-bottom:8px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.gs-ico {
+  width:26px; height:26px; border-radius:6px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; background:rgba(22,163,74,.15);
+}
+.sky .gs-ico   { background:rgba(8,145,178,.15); }
+.snake .gs-ico { background:rgba(147,51,234,.15); }
+.gs-name { font-size:11px; font-weight:700; color:#86efac; }
+.sky .gs-name   { color:#67e8f9; }
+.snake .gs-name { color:#d8b4fe; }
+.gs-port { font-size:8px; color:#a9b9cc; margin-top:1px; }
+.gs-internal {
+  background:rgba(245,158,11,.05);
+  border:1px solid rgba(245,158,11,.15);
+  border-radius:6px; padding:4px 7px; margin-bottom:7px;
+  display:flex; flex-direction:column; gap:2px;
+}
+.gs-int-row { display:flex; align-items:center; gap:4px; font-size:7.5px; color:#c8c0b8; }
+.gs-stats { display:flex; gap:5px; margin-bottom:8px; }
+.gs-stat {
+  flex:1; background:rgba(255,255,255,.03);
+  border-radius:5px; padding:4px; text-align:center;
+}
+.gs-sv { font-size:12px; font-weight:700; color:#f1f5f9; }
+.gs-sl { font-size:7px; color:#a9b9cc; margin-top:1px; }
+.rooms-lbl { font-size:7px; color:#a9b9cc; letter-spacing:1px; text-transform:uppercase; margin-bottom:4px; }
+.rooms-grid { display:grid; grid-template-columns:1fr 1fr; gap:4px; }
+.room {
+  background:rgba(255,255,255,.025);
+  border:1px solid rgba(255,255,255,.05);
+  border-radius:6px; padding:5px 6px; position:relative;
+}
+.room.active { border-color:rgba(22,163,74,.25); background:rgba(22,163,74,.05); }
+.sky .room.active   { border-color:rgba(8,145,178,.25);  background:rgba(8,145,178,.05); }
+.snake .room.active { border-color:rgba(147,51,234,.25); background:rgba(147,51,234,.05); }
+.room-id { font-size:7px; font-weight:700; color:#a9b9cc; margin-bottom:3px; padding-right:9px; }
+.room-ps { display:flex; gap:2px; flex-wrap:wrap; }
+.pd {
+  width:14px; height:14px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:6px; font-weight:700;
+}
+.pd.on {
+  background:rgba(22,163,74,.18); border:1.5px solid #16a34a; color:#86efac;
+  animation:pp 2s ease-in-out infinite;
+}
+.sky .pd.on   { background:rgba(8,145,178,.18); border-color:#0891b2; color:#67e8f9; animation-name:pp2; }
+.snake .pd.on { background:rgba(147,51,234,.18); border-color:#9333ea; color:#d8b4fe; animation-name:pp3; }
+.pd.on:nth-child(2){animation-delay:.2s}
+.pd.on:nth-child(3){animation-delay:.4s}
+.pd.on:nth-child(4){animation-delay:.6s}
+@keyframes pp  {0%,100%{box-shadow:0 0 0 0 rgba(22,163,74,.4)}  50%{box-shadow:0 0 0 3px rgba(22,163,74,0)}}
+@keyframes pp2 {0%,100%{box-shadow:0 0 0 0 rgba(8,145,178,.4)}  50%{box-shadow:0 0 0 3px rgba(8,145,178,0)}}
+@keyframes pp3 {0%,100%{box-shadow:0 0 0 0 rgba(147,51,234,.4)} 50%{box-shadow:0 0 0 3px rgba(147,51,234,0)}}
+.pd.off {
+  background:rgba(255,255,255,.02);
+  border:1.5px dashed rgba(255,255,255,.07); color:#a9b9cc;
+}
+.rs {
+  position:absolute; top:4px; left:5px;
+  width:4px; height:4px; border-radius:50%;
+  background:#16a34a; animation:blink 1.5s infinite;
+}
+.sky .rs   { background:#0891b2; }
+.snake .rs { background:#9333ea; }
+.rs.w { background:#d97706; animation:none; opacity:.5; }
+@keyframes blink {0%,100%{opacity:1}50%{opacity:.25}}
+
+/* ═══ DEVICE ═══ */
+.dv {
+  background:linear-gradient(135deg,#141820 0%,#0d1118 100%);
+  border:1.5px solid #b45309; border-radius:10px;
+  padding:9px 10px; width:122px; text-align:center;
+  box-shadow:0 0 14px rgba(180,83,9,.1);
+}
+.dv.off { border-color:#b91c1c; box-shadow:0 0 14px rgba(185,28,28,.08); opacity:.65; }
+.dv-icon { font-size:20px; margin-bottom:3px; }
+.dv-name { font-size:9px; font-weight:700; color:#fcd34d; margin-bottom:1px; }
+.dv.off .dv-name { color:#fca5a5; }
+.dv-id   { font-size:8px; color:#a9b9cc; margin-bottom:4px; }
+.dv-protos { display:flex; flex-direction:column; gap:2px; margin-bottom:4px; }
+.dv-proto {
+  display:flex; align-items:center; gap:3px;
+  padding:2px 4px; border-radius:4px; font-size:7px;
+}
+.dv-proto.sr  { background:rgba(20,184,166,.08);  color:#5eead4; }
+.dv-proto.mir { background:rgba(22,163,74,.08);   color:#86efac; }
+.dv-proto.mir.sky   { background:rgba(8,145,178,.08);   color:#67e8f9; }
+.dv-proto.mir.snake { background:rgba(147,51,234,.08);  color:#d8b4fe; }
+.dv-proto.off-p { background:rgba(239,68,68,.08); color:#f87171; }
+.dv-status {
+  display:inline-flex; align-items:center; gap:3px;
+  padding:2px 6px; border-radius:10px;
+  font-size:7px; font-weight:700; margin-bottom:3px;
+}
+.s-play { background:rgba(59,130,246,.15);  color:#60a5fa; }
+.s-on   { background:rgba(34,197,94,.15);   color:#4ade80; }
+.s-idle { background:rgba(245,158,11,.15);  color:#fbbf24; }
+.s-off  { background:rgba(239,68,68,.15);   color:#f87171; }
+.sd { width:4px; height:4px; border-radius:50%; background:currentColor; animation:blink 1.5s infinite; }
+.s-off .sd { animation:none; opacity:.4; }
+.dv-info { font-size:7px; color:#a9b9cc; }
+
+/* ═══ LEGEND ═══ */
+.legend {
+  display:flex; justify-content:center; gap:16px; flex-wrap:wrap;
+  margin:28px auto 0; padding:11px 18px;
+  background:rgba(255,255,255,.015);
+  border:1px solid rgba(255,255,255,.04);
+  border-radius:10px; max-width:1100px;
+}
+.li { display:flex; align-items:center; gap:5px; font-size:10px; color:#a9b9cc; }
+.ll { width:22px; height:2px; border-radius:2px; }
+
+/* ═══ ANIMATIONS ═══ */
+.a-dash   { animation:moveDash  1.1s linear infinite; }
+.a-solid  { animation:moveSolid .65s linear infinite; }
+.a-slow   { animation:moveSlow  1.8s linear infinite; }
+.a-int    { animation:moveInt   1.4s linear infinite; }
+@keyframes moveDash  { to{stroke-dashoffset:-20} }
+@keyframes moveSolid { to{stroke-dashoffset:-24} }
+@keyframes moveSlow  { to{stroke-dashoffset:-18} }
+@keyframes moveInt   { to{stroke-dashoffset:-22} }
+
+/* ═══ SNAP GHOST ═══ */
+.snap-ghost {
+  position:absolute; border-radius:12px; pointer-events:none;
+  border:2px dashed rgba(99,102,241,.4);
+  background:rgba(99,102,241,.05);
+  transition:opacity .15s; z-index:5;
+}
+
+[hidden]{display:none!important}.portfolio-back{display:inline-block;color:#7ce4c3;text-decoration:none;font-size:13px;padding:12px;margin-bottom:8px}.portfolio-back:hover{text-decoration:underline}.page-title{font-size:24px;color:#eff3f4;text-shadow:none}.page-sub{color:#abb9c8;font-size:12px;line-height:2}.schematic-note{max-width:900px;margin:16px auto 8px;color:#d8e2ec;font-size:13px;line-height:2;padding:12px 18px;border:1px solid #263545;background:#101d2b;border-radius:5px}.toolbar{max-width:1100px;margin:auto}.tb-btn{font-family:inherit;font-size:12px;min-height:44px;color:#c3d2df;padding:9px 14px;border-color:#3b4e65}.diagram-help{color:#abb9c8;font-size:12px;line-height:2;text-align:center;margin:8px 20px 16px}.diagram-help a{color:#7ce4c3}.diagram-scroll{width:100%;overflow:auto;direction:ltr;border-block:1px solid #263545;overscroll-behavior-x:contain}.canvas{direction:rtl}.drag-card{user-select:none}.drag-handle{height:18px}.drag-handle::after{color:#abb9c8}.drag-card:focus-visible{outline:2px solid #7ce4c3;outline-offset:5px}.legend{margin-block:20px 30px;padding:16px;border-color:#263545}.li{color:#abb9c8;font-size:11px}.page-header,.toolbar,.diagram-help{user-select:text}.drag-card{cursor:default}.diagram-help+.diagram-scroll{scrollbar-color:#7ce4c3 #101d2b}a:focus-visible,button:focus-visible,.diagram-scroll:focus-visible{outline:2px solid #7ce4c3;outline-offset:3px}@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}@media(max-width:760px){.page-header{padding-inline:16px}.page-title{font-size:21px}.page-sub{font-size:10px;letter-spacing:0}.schematic-note{font-size:12px;text-align:right}.toolbar{gap:6px;padding-inline:16px}.tb-btn{font-size:11px;padding-inline:10px}.diagram-scroll{max-height:78vh}.legend{margin-inline:16px}.portfolio-back{font-size:12px}}
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <a class="portfolio-back" href="playwin.html">بازگشت به معرفی پروژه ↗</a>
+  <a class="portfolio-back" href="resume.html#project-playwin">بازگشت به رزومه ↗</a>
+  <h1 class="page-title">PlayWin — معماری کامل سیستم</h1>
+  <div class="page-sub">Admin Panels · REST API · SignalR · Backend · Orchestrator · Game Servers · Kiosk Devices</div>
+  <p class="schematic-note">این نمودار، نمایش شماتیک معماری است. تعداد دستگاه‌ها، روم‌ها، بازیکنان، نام بازی‌ها و وضعیت‌های آنلاین صرفاً نمونه توضیحی‌اند و آمار زنده سامانه نیستند.</p>
+</header>
+
+<!-- TOOLBAR -->
+<div class="toolbar" hidden>
+  <button class="tb-btn" id="btnLock" onclick="toggleLock()">🔓 حالت جابجایی فعال</button>
+  <button class="tb-btn" onclick="resetLayout()">↺ بازگشت به چیدمان پیش‌فرض</button>
+  <button class="tb-btn" id="btnSave" onclick="saveLayout(event)">💾 ذخیره چیدمان</button>
+  <button class="tb-btn" id="btnLines" aria-pressed="true" onclick="toggleLines()">〰️ مخفی‌کردن خطوط</button>
+  <span style="font-size:10px;color:#a9b9cc;align-self:center;">برای جابجایی کارت‌ها بکشید</span>
+</div>
+
+<p class="diagram-help">برای دیدن تمام نمودار در نمایشگر کوچک، ناحیه زیر را افقی پیمایش کنید. با فعال‌کردن جابه‌جایی می‌توانید چیدمان کارت‌ها را تغییر دهید.</p>
+<noscript><p class="diagram-help">نمای ثابت معماری نمایش داده می‌شود. برای خطوط ارتباطی، نمودار خلاصه را در <a href="playwin.html">صفحه معرفی پروژه</a> ببینید.</p></noscript>
+<main class="diagram-scroll" tabindex="0" role="region" aria-label="نمودار معماری؛ قابل پیمایش افقی">
+<div class="canvas" id="canvas">
+<svg class="svg-layer" id="svgLayer" xmlns="http://www.w3.org/2000/svg"></svg>
+
+<!-- ══ ADMIN PANELS ══ -->
+<div class="drag-card" id="ap0" data-id="ap0" style="left:4%;top:20px">
+  <div class="drag-handle"></div>
+  <div class="admin-panel">
+    <div class="ap-head"><div class="ap-icon">👑</div><div><div class="ap-title">Super Admin</div><div class="ap-role">دسترسی کامل</div></div></div>
+    <div class="ap-body">
+      <div class="ep"><span class="m GET">GET</span><span class="ep-path">/admin/users</span></div>
+      <div class="ep"><span class="m PUT">PUT</span><span class="ep-path">/admin/users/{id}/ban</span></div>
+      <div class="ep"><span class="m PUT">PUT</span><span class="ep-path">/admin/settings</span></div>
+      <div class="ep"><span class="m POST">POST</span><span class="ep-path">/auth/login</span></div>
+      <div class="ep"><span class="m POST">POST</span><span class="ep-path">/auth/refresh</span></div>
+      <div class="ep"><span class="m GET">GET</span><span class="ep-path">/admin/dashboard/stats</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="drag-card" id="ap1" data-id="ap1" style="left:17%;top:20px">
+  <div class="drag-handle"></div>
+  <div class="admin-panel">
+    <div class="ap-head"><div class="ap-icon">🖥️</div><div><div class="ap-title">Device Manager</div><div class="ap-role">مدیریت دستگاه‌ها</div></div></div>
+    <div class="ap-body">
+      <div class="ep"><span class="m GET">GET</span><span class="ep-path">/admin/devices</span></div>
+      <div class="ep"><span class="m POST">POST</span><span class="ep-path">/admin/devices</span></div>
+      <div class="ep"><span class="m PUT">PUT</span><span class="ep-path">/admin/devices/{id}</span></div>
+      <div class="ep"><span class="m DELETE">DEL</span><span class="ep-path">/admin/devices/{id}</span></div>
+      <div class="ep"><span class="m GET">GET</span><span class="ep-path">/admin/games</span></div>
+      <div class="ep"><span class="m PUT">PUT</span><span class="ep-path">/admin/games/{gameId}</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="drag-card" id="ap2" data-id="ap2" style="left:30%;top:20px">
+  <div class="drag-handle"></div>
+  <div class="admin-panel">
+    <div class="ap-head"><div class="ap-icon">💰</div><div><div class="ap-title">Finance Admin</div><div class="ap-role">مالی و کیف پول</div></div></div>
+    <div class="ap-body">
+      <div class="ep"><span class="m GET">GET</span><span class="ep-path">/admin/users/{id}</span></div>
+      <div class="ep"><span class="m PUT">PUT</span><span class="ep-path">/admin/users/{id}/coins</span></div>
+      <div class="ep"><span class="m GET">GET</span><span class="ep-path">/wallet/transactions</span></div>
+      <div class="ep"><span class="m POST">POST</span><span class="ep-path">/promotions/redeem</span></div>
+      <div class="ep"><span class="m GET">GET</span><span class="ep-path">/promotions/active</span></div>
+      <div class="ep"><span class="m POST">POST</span><span class="ep-path">/wallet/charge</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="drag-card" id="ap3" data-id="ap3" style="left:55.00000000000001%;top:20px">
+  <div class="drag-handle"></div>
+  <div class="admin-panel">
+    <div class="ap-head"><div class="ap-icon">📊</div><div><div class="ap-title">Game Monitor</div><div class="ap-role">مانیتور Real-time</div></div></div>
+    <div class="ap-body">
+      <div class="ep"><span class="m WS">WS</span><span class="ep-path">JoinAdminMonitor</span></div>
+      <div class="ep"><span class="m WS">WS</span><span class="ep-path">on: AdminRoomUpdate</span></div>
+      <div class="ep"><span class="m WS">WS</span><span class="ep-path">on: AdminAlert</span></div>
+      <div class="ep"><span class="m GET">GET</span><span class="ep-path">/admin/dashboard/active-rooms</span></div>
+      <div class="ep"><span class="m GET">GET</span><span class="ep-path">/admin/dashboard/game-servers</span></div>
+      <div class="ep"><span class="m GET">GET</span><span class="ep-path">/admin/dashboard/stats</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="drag-card" id="ap4" data-id="ap4" style="left:68%;top:20px">
+  <div class="drag-handle"></div>
+  <div class="admin-panel">
+    <div class="ap-head"><div class="ap-icon">🎮</div><div><div class="ap-title">Player Support</div><div class="ap-role">پشتیبانی بازیکنان</div></div></div>
+    <div class="ap-body">
+      <div class="ep"><span class="m GET">GET</span><span class="ep-path">/admin/users</span></div>
+      <div class="ep"><span class="m GET">GET</span><span class="ep-path">/admin/users/{id}</span></div>
+      <div class="ep"><span class="m GET">GET</span><span class="ep-path">/cards</span></div>
+      <div class="ep"><span class="m GET">GET</span><span class="ep-path">/sessions/{sessionId}</span></div>
+      <div class="ep"><span class="m GET">GET</span><span class="ep-path">/player/game-history</span></div>
+      <div class="ep"><span class="m GET">GET</span><span class="ep-path">/games/{gameId}/leaderboard</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BACKEND ══ -->
+<div class="drag-card" id="backend" data-id="backend" style="left:20%;top:240px">
+  <div class="drag-handle"></div>
+  <div class="backend-box">
+    <div class="be-title">🖥️ PlayWin Backend Server <span class="online-badge">● Online :5001</span></div>
+    <div class="be-grid">
+      <div class="be-chip">🔌 SignalR Hub<br><small style="color:#a9b9cc;font-size:8px">/hubs/game</small></div>
+      <div class="be-chip g">🎯 Orchestrator<br><small style="color:#a9b9cc;font-size:8px">AssignGameServer</small></div>
+      <div class="be-chip p">📊 Matchmaking<br><small style="color:#a9b9cc;font-size:8px">Redis Queue+Lua</small></div>
+      <div class="be-chip o">🗄️ MySQL+Redis<br><small style="color:#a9b9cc;font-size:8px">Dapper · ACID</small></div>
+      <div class="be-chip t">🔐 JWT Auth<br><small style="color:#a9b9cc;font-size:8px">Device/Player/Admin</small></div>
+      <div class="be-chip">💰 Economy<br><small style="color:#a9b9cc;font-size:8px">Wallet · Card</small></div>
+      <div class="be-chip g">🤖 Bot Worker<br><small style="color:#a9b9cc;font-size:8px">Easy/Med/Hard</small></div>
+      <div class="be-chip r">⏱️ GracePeriod<br><small style="color:#a9b9cc;font-size:8px">PlayerTimeout 30s</small></div>
+      <div class="be-chip p">⚙️ SystemSettings<br><small style="color:#a9b9cc;font-size:8px">Dynamic Config</small></div>
+      <div class="be-chip y">🏆 FinalizeSession<br><small style="color:#a9b9cc;font-size:8px">EffectiveRank</small></div>
+    </div>
+    <div class="be-internal">
+      <span style="font-size:8px;color:#a16207;font-weight:600;margin-left:4px;">🔒 Internal API:</span>
+      <div class="int-ep"><span class="m INT">POST</span><span>/internal/server/register</span></div>
+      <div class="int-ep"><span class="m INT">POST</span><span>/internal/server/heartbeat</span></div>
+      <div class="int-ep"><span class="m INT">POST</span><span>/internal/host-room</span></div>
+      <div class="int-ep"><span class="m INT">POST</span><span>/internal/matches/{id}/result</span></div>
+      <div class="int-ep"><span class="m INT">GET</span><span>/internal/jointoken/{token}</span></div>
+    </div>
+    <div class="be-signalr">
+      <span style="font-size:8px;color:#0d9488;font-weight:600;margin-left:4px;">📡 SignalR:</span>
+      <div class="sr-ep"><span class="m WS">→</span><span>LobbyCreated</span></div>
+      <div class="sr-ep"><span class="m WS">→</span><span>LobbyCountdown</span></div>
+      <div class="sr-ep"><span class="m WS">→</span><span>GameStarted</span></div>
+      <div class="sr-ep"><span class="m WS">→</span><span>GameServerAssigned</span></div>
+      <div class="sr-ep"><span class="m WS">→</span><span>GameEnded</span></div>
+      <div class="sr-ep"><span class="m WS">→</span><span>WalletUpdated</span></div>
+      <div class="sr-ep"><span class="m WS">←</span><span>FindMatch</span></div>
+      <div class="sr-ep"><span class="m WS">←</span><span>ReconnectToGame</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ GAME SERVERS ══ -->
+<div class="drag-card" id="gs0" data-id="gs0" style="left:8%;top:560px">
+  <div class="drag-handle"></div>
+  <div class="gs">
+    <div class="gs-head"><div class="gs-ico">🚗</div><div><div class="gs-name">Traffic Racing</div><div class="gs-port">srv-001 · :7777 · KCP/UDP</div></div></div>
+    <div class="gs-internal">
+      <div class="gs-int-row"><span class="m INT" style="font-size:7px;">POST</span><span>/internal/server/register</span></div>
+      <div class="gs-int-row"><span class="m INT" style="font-size:7px;">POST</span><span>/internal/server/heartbeat (15s)</span></div>
+      <div class="gs-int-row"><span class="m INT" style="font-size:7px;">POST</span><span>/internal/matches/{id}/result</span></div>
+    </div>
+    <div class="gs-stats">
+      <div class="gs-stat"><div class="gs-sv">3</div><div class="gs-sl">روم فعال</div></div>
+      <div class="gs-stat"><div class="gs-sv">10</div><div class="gs-sl">ظرفیت</div></div>
+      <div class="gs-stat"><div class="gs-sv">11</div><div class="gs-sl">بازیکن</div></div>
+    </div>
+    <div class="rooms-lbl">روم‌های فعال</div>
+    <div class="rooms-grid">
+      <div class="room active"><div class="rs"></div><div class="room-id">ROOM-A1</div><div class="room-ps"><div class="pd on">P1</div><div class="pd on">P2</div><div class="pd on">P3</div><div class="pd on">P4</div></div></div>
+      <div class="room active"><div class="rs"></div><div class="room-id">ROOM-A2</div><div class="room-ps"><div class="pd on">P1</div><div class="pd on">P2</div><div class="pd on">P3</div><div class="pd off">·</div></div></div>
+      <div class="room active"><div class="rs"></div><div class="room-id">ROOM-A3</div><div class="room-ps"><div class="pd on">P1</div><div class="pd on">P2</div><div class="pd on">P3</div><div class="pd on">P4</div></div></div>
+      <div class="room"><div class="rs w"></div><div class="room-id">ROOM-A4</div><div class="room-ps"><div class="pd off">·</div><div class="pd off">·</div><div class="pd off">·</div><div class="pd off">·</div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="drag-card" id="gs1" data-id="gs1" style="left:37%;top:560px">
+  <div class="drag-handle"></div>
+  <div class="gs sky">
+    <div class="gs-head"><div class="gs-ico">🚀</div><div><div class="gs-name">Sky Shooter</div><div class="gs-port">srv-002 · :7778 · KCP/UDP</div></div></div>
+    <div class="gs-internal">
+      <div class="gs-int-row"><span class="m INT" style="font-size:7px;">POST</span><span>/internal/server/register</span></div>
+      <div class="gs-int-row"><span class="m INT" style="font-size:7px;">POST</span><span>/internal/server/heartbeat (15s)</span></div>
+      <div class="gs-int-row"><span class="m INT" style="font-size:7px;">POST</span><span>/internal/matches/{id}/result</span></div>
+    </div>
+    <div class="gs-stats">
+      <div class="gs-stat"><div class="gs-sv">2</div><div class="gs-sl">روم فعال</div></div>
+      <div class="gs-stat"><div class="gs-sv">8</div><div class="gs-sl">ظرفیت</div></div>
+      <div class="gs-stat"><div class="gs-sv">8</div><div class="gs-sl">بازیکن</div></div>
+    </div>
+    <div class="rooms-lbl">روم‌های فعال</div>
+    <div class="rooms-grid">
+      <div class="room active"><div class="rs"></div><div class="room-id">ROOM-B1</div><div class="room-ps"><div class="pd on">P1</div><div class="pd on">P2</div><div class="pd on">P3</div><div class="pd on">P4</div></div></div>
+      <div class="room active"><div class="rs"></div><div class="room-id">ROOM-B2</div><div class="room-ps"><div class="pd on">P1</div><div class="pd on">P2</div><div class="pd on">P3</div><div class="pd on">P4</div></div></div>
+      <div class="room"><div class="rs w"></div><div class="room-id">ROOM-B3</div><div class="room-ps"><div class="pd off">·</div><div class="pd off">·</div><div class="pd off">·</div><div class="pd off">·</div></div></div>
+      <div class="room"><div class="rs w"></div><div class="room-id">ROOM-B4</div><div class="room-ps"><div class="pd off">·</div><div class="pd off">·</div><div class="pd off">·</div><div class="pd off">·</div></div></div>
+    </div
+>
+  </div>
+</div>
+
+<div class="drag-card" id="gs2" data-id="gs2" style="left:64%;top:560px">
+  <div class="drag-handle"></div>
+  <div class="gs snake">
+    <div class="gs-head"><div class="gs-ico">🐍</div><div><div class="gs-name">Snake</div><div class="gs-port">srv-003 · :7779 · KCP/UDP</div></div></div>
+    <div class="gs-internal">
+      <div class="gs-int-row"><span class="m INT" style="font-size:7px;">POST</span><span>/internal/server/register</span></div>
+      <div class="gs-int-row"><span class="m INT" style="font-size:7px;">POST</span><span>/internal/server/heartbeat (15s)</span></div>
+      <div class="gs-int-row"><span class="m INT" style="font-size:7px;">POST</span><span>/internal/matches/{id}/result</span></div>
+    </div>
+    <div class="gs-stats">
+      <div class="gs-stat"><div class="gs-sv">2</div><div class="gs-sl">روم فعال</div></div>
+      <div class="gs-stat"><div class="gs-sv">6</div><div class="gs-sl">ظرفیت</div></div>
+      <div class="gs-stat"><div class="gs-sv">6</div><div class="gs-sl">بازیکن</div></div>
+    </div>
+    <div class="rooms-lbl">روم‌های فعال</div>
+    <div class="rooms-grid">
+      <div class="room active"><div class="rs"></div><div class="room-id">ROOM-C1</div><div class="room-ps"><div class="pd on">P1</div><div class="pd on">P2</div><div class="pd on">P3</div><div class="pd off">·</div></div></div>
+      <div class="room active"><div class="rs"></div><div class="room-id">ROOM-C2</div><div class="room-ps"><div class="pd on">P1</div><div class="pd on">P2</div><div class="pd on">P3</div><div class="pd off">·</div></div></div>
+      <div class="room"><div class="rs w"></div><div class="room-id">ROOM-C3</div><div class="room-ps"><div class="pd off">·</div><div class="pd off">·</div><div class="pd off">·</div><div class="pd off">·</div></div></div>
+      <div class="room"><div class="rs w"></div><div class="room-id">ROOM-C4</div><div class="room-ps"><div class="pd off">·</div><div class="pd off">·</div><div class="pd off">·</div><div class="pd off">·</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DEVICES ══ -->
+<div class="drag-card" id="dv0" data-id="dv0" style="left:2%;top:870px">
+  <div class="drag-handle"></div>
+  <div class="dv">
+    <div class="dv-icon">🕹️</div><div class="dv-name">Kiosk-01</div><div class="dv-id">DEV-A001</div>
+    <div class="dv-protos"><div class="dv-proto sr">📡 SignalR ← Backend</div><div class="dv-proto mir">🎮 Mirror → Traffic</div></div>
+    <div class="dv-status s-play"><div class="sd"></div>در بازی</div>
+    <div class="dv-info">Traffic · A1 · joinToken ✓</div>
+  </div>
+</div>
+
+<div class="drag-card" id="dv1" data-id="dv1" style="left:12%;top:870px">
+  <div class="drag-handle"></div>
+  <div class="dv">
+    <div class="dv-icon">🕹️</div><div class="dv-name">Kiosk-02</div><div class="dv-id">DEV-A002</div>
+    <div class="dv-protos"><div class="dv-proto sr">📡 SignalR ← Backend</div><div class="dv-proto mir">🎮 Mirror → Traffic</div></div>
+    <div class="dv-status s-play"><div class="sd"></div>در بازی</div>
+    <div class="dv-info">Traffic · A2 · joinToken ✓</div>
+  </div>
+</div>
+
+<div class="drag-card" id="dv2" data-id="dv2" style="left:27%;top:870px">
+  <div class="drag-handle"></div>
+  <div class="dv">
+    <div class="dv-icon">🕹️</div><div class="dv-name">Kiosk-03</div><div class="dv-id">DEV-B001</div>
+    <div class="dv-protos"><div class="dv-proto sr">📡 SignalR ← Backend</div><div class="dv-proto mir sky">🎮 Mirror → Sky</div></div>
+    <div class="dv-status s-play"><div class="sd"></div>در بازی</div>
+    <div class="dv-info">Sky · B1 · joinToken ✓</div>
+  </div>
+</div>
+
+<div class="drag-card" id="dv3" data-id="dv3" style="left:37%;top:870px">
+  <div class="drag-handle"></div>
+  <div class="dv">
+    <div class="dv-icon">🕹️</div><div class="dv-name">Kiosk-04</div><div class="dv-id">DEV-B002</div>
+    <div class="dv-protos"><div class="dv-proto sr">📡 SignalR ← Backend</div><div class="dv-proto mir sky" style="opacity:.4;">🎮 Mirror — آماده</div></div>
+    <div class="dv-status s-idle"><div class="sd"></div>در لابی</div>
+    <div class="dv-info">FindMatch ارسال شده</div>
+  </div>
+</div>
+
+<div class="drag-card" id="dv4" data-id="dv4" style="left:52%;top:870px">
+  <div class="drag-handle"></div>
+  <div class="dv">
+    <div class="dv-icon">🕹️</div><div class="dv-name">Kiosk-05</div><div class="dv-id">DEV-C001</div>
+    <div class="dv-protos"><div class="dv-proto sr">📡 SignalR ← Backend</div><div class="dv-proto mir snake">🎮 Mirror → Snake</div></div>
+    <div class="dv-status s-play"><div class="sd"></div>در بازی</div>
+    <div class="dv-info">Snake · C1 · joinToken ✓</div>
+  </div>
+</div>
+
+<div class="drag-card" id="dv5" data-id="dv5" style="left:62%;top:870px">
+  <div class="drag-handle"></div>
+  <div class="dv">
+    <div class="dv-icon">🕹️</div><div class="dv-name">Kiosk-06</div><div class="dv-id">DEV-C002</div>
+    <div class="dv-protos"><div class="dv-proto sr">📡 SignalR ← Backend</div><div class="dv-proto mir snake">🎮 Mirror → Snake</div></div>
+    <div class="dv-status s-on"><div class="sd"></div>آنلاین</div>
+    <div class="dv-info">Snake · C2 · فعال</div>
+  </div>
+</div>
+
+<div class="drag-card" id="dv6" data-id="dv6" style="left:75%;top:870px">
+  <div class="drag-handle"></div>
+  <div class="dv off">
+    <div class="dv-icon">🕹️</div><div class="dv-name">Kiosk-07</div><div class="dv-id">DEV-D001</div>
+    <div class="dv-protos"><div class="dv-proto off-p">📡 SignalR — قطع</div><div class="dv-proto off-p">🎮 Mirror — قطع</div></div>
+    <div class="dv-status s-off"><div class="sd"></div>آفلاین</div>
+    <div class="dv-info">آخرین HB: 5m پیش</div>
+  </div>
+</div>
+
+</div><!-- /canvas -->
+</main>
+<!-- LEGEND -->
+<div style="position:relative;z-index:20;margin-top:16px;">
+  <div class="legend">
+    <div class="li"><div class="ll" style="background:#7c3aed"></div>REST API — Admin→Backend</div>
+    <div class="li"><div class="ll" style="background:#f59e0b"></div>HTTP Internal — Backend↔GameServer</div>
+    <div class="li"><div class="ll" style="height:0;border-top:2px dashed #0d9488;width:22px"></div>SignalR WebSocket — Kiosk↔Backend</div>
+    <div class="li"><div class="ll" style="background:#16a34a"></div>Mirror KCP — Traffic Racing</div>
+    <div class="li"><div class="ll" style="background:#0891b2"></div>Mirror KCP — Sky Shooter</div>
+    <div class="li"><div class="ll" style="background:#9333ea"></div>Mirror KCP — Snake</div>
+    <div class="li"><div style="width:7px;height:7px;border-radius:50%;background:#16a34a;animation:blink 1.5s infinite"></div>روم فعال</div>
+    <div class="li"><div style="width:7px;height:7px;border-radius:50%;background:#d97706;opacity:.5"></div>روم خالی</div>
+  </div>
+</div>
+
+
+
+<script>
+// ══════════════════════════════════════════════
+//  CONFIG
+// ══════════════════════════════════════════════
+const CARD_IDS = ['ap0','ap1','ap2','ap3','ap4','backend','gs0','gs1','gs2','dv0','dv1','dv2','dv3','dv4','dv5','dv6'];
+
+// چیدمان پیش‌فرض — درصد از عرض و پیکسل از بالا
+const DEFAULT_LAYOUT = {
+  ap0:     { xp:0.04,  y:20  },
+  ap1:     { xp:0.17,  y:20  },
+  ap2:     { xp:0.30,  y:20  },
+  ap3:     { xp:0.55,  y:20  },
+  ap4:     { xp:0.68,  y:20  },
+  backend: { xp:0.20,  y:240 },
+  gs0:     { xp:0.08,  y:560 },
+  gs1:     { xp:0.37,  y:560 },
+  gs2:     { xp:0.64,  y:560 },
+  dv0:     { xp:0.02,  y:870 },
+  dv1:     { xp:0.12,  y:870 },
+  dv2:     { xp:0.27,  y:870 },
+  dv3:     { xp:0.37,  y:870 },
+  dv4:     { xp:0.52,  y:870 },
+  dv5:     { xp:0.62,  y:870 },
+  dv6:     { xp:0.75,  y:870 },
+};
+
+// تعریف خطوط ارتباطی
+const CONNECTIONS = [
+  // Admin → Backend (بنفش REST)
+  { from:'ap0', to:'backend', col:'#7c3aed', dash:'5 4', w:1.5, cls:'a-dash', op:0.5 },
+  { from:'ap1', to:'backend', col:'#7c3aed', dash:'5 4', w:1.5, cls:'a-dash', op:0.5 },
+  { from:'ap2', to:'backend', col:'#7c3aed', dash:'5 4', w:1.5, cls:'a-dash', op:0.5 },
+  { from:'ap3', to:'backend', col:'#7c3aed', dash:'5 4', w:1.5, cls:'a-dash', op:0.5 },
+  { from:'ap4', to:'backend', col:'#7c3aed', dash:'5 4', w:1.5, cls:'a-dash', op:0.5 },
+  // Backend → Game Servers (زرد Internal)
+  { from:'backend', to:'gs0', col:'#f59e0b', dash:'7 4', w:2,   cls:'a-int',  op:0.6 },
+  { from:'backend', to:'gs1', col:'#f59e0b', dash:'7 4', w:2,   cls:'a-int',  op:0.6 },
+  { from:'backend', to:'gs2', col:'#f59e0b', dash:'7 4', w:2,   cls:'a-int',  op:0.6 },
+  // Backend ↔ Devices (فیروزه SignalR)
+  { from:'backend', to:'dv0', col:'#0d9488', dash:'4 6', w:1,   cls:'a-slow', op:0.5 },
+  { from:'backend', to:'dv1', col:'#0d9488', dash:'4 6', w:1,   cls:'a-slow', op:0.5 },
+  { from:'backend', to:'dv2', col:'#0d9488', dash:'4 6', w:1,   cls:'a-slow', op:0.5 },
+  { from:'backend', to:'dv3', col:'#0d9488', dash:'4 6', w:1,   cls:'a-slow', op:0.5 },
+  { from:'backend', to:'dv4', col:'#0d9488', dash:'4 6', w:1,   cls:'a-slow', op:0.5 },
+  { from:'backend', to:'dv5', col:'#0d9488', dash:'4 6', w:1,   cls:'a-slow', op:0.5 },
+  { from:'backend', to:'dv6', col:'#ef4444', dash:'3 8', w:0.7, cls:'a-slow', op:0.2 },
+  // Traffic → Devices 0,1
+  { from:'gs0', to:'dv0', col:'#16a34a', dash:null, w:1.5, cls:'a-solid', op:0.65 },
+  { from:'gs0', to:'dv1', col:'#16a34a', dash:null, w:1.5, cls:'a-solid', op:0.65 },
+  // Sky → Devices 2,3
+  { from:'gs1', to:'dv2', col:'#0891b2', dash:null,  w:1.5, cls:'a-solid', op:0.65 },
+  { from:'gs1', to:'dv3', col:'#0891b2', dash:'3 6', w:1.5, cls:'a-solid', op:0.25 },
+  // Snake → Devices 4,5
+  { from:'gs2', to:'dv4', col:'#9333ea', dash:null, w:1.5, cls:'a-solid', op:0.65 },
+  { from:'gs2', to:'dv5', col:'#9333ea', dash:null, w:1.5, cls:'a-solid', op:0.65 },
+];
+
+// ══════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════
+const STORAGE_KEY = 'mehrhossin:playwin:architecture:layout:v1';
+let positions   = {};
+let relativeLayout = {};
+let isDragLocked = true;
+let showLines    = true;
+let dragging     = null;
+let dragOffX=0, dragOffY=0;
+
+// ══════════════════════════════════════════════
+//  INIT POSITIONS
+// ══════════════════════════════════════════════
+function applyLayout(layout) {
+  const cv = document.getElementById('canvas');
+  const W  = cv.offsetWidth;
+  CARD_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el || !layout[id]) return;
+    const xp = Number.isFinite(layout[id].xp) ? Math.max(0, Math.min(layout[id].xp, 1)) : DEFAULT_LAYOUT[id].xp;
+    const y = Number.isFinite(layout[id].y) ? Math.max(0, layout[id].y) : DEFAULT_LAYOUT[id].y;
+    const x = Math.min(Math.round(xp * W), Math.max(0, W - el.offsetWidth));
+    relativeLayout[id] = { xp: W ? x / W : xp, y };
+    el.style.left = x + 'px';
+    el.style.top  = y + 'px';
+    positions[id] = { x, y };
+  });
+  updateCanvasHeight();
+  drawLines();
+}
+
+function updateCanvasHeight() {
+  const cv = document.getElementById('canvas');
+  let maxBottom = 1100;
+  CARD_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const b = parseInt(el.style.top||0) + el.offsetHeight + 40;
+    if (b > maxBottom) maxBottom = b;
+  });
+  cv.style.minHeight = maxBottom + 'px';
+}
+
+// ══════════════════════════════════════════════
+//  DRAW SVG LINES
+// ══════════════════════════════════════════════
+function getCenter(id) {
+  const cv = document.getElementById('canvas');
+  const el = document.getElementById(id);
+  if (!el) return null;
+  const cr = cv.getBoundingClientRect();
+  const er = el.getBoundingClientRect();
+  return {
+    x:  er.left - cr.left + er.width  / 2,
+    y:  er.top  - cr.top  + er.height / 2,
+    t:  er.top  - cr.top,
+    b:  er.bottom - cr.top,
+    l:  er.left - cr.left,
+    r:  er.right - cr.left,
+    w:  er.width,
+    h:  er.height
+  };
+}
+
+function makePath(x1,y1,x2,y2,col,dash,w,cls,op) {
+  const cy = (y1+y2)/2;
+  const d  = `M${x1.toFixed(1)} ${y1.toFixed(1)} C${x1.toFixed(1)} ${cy.toFixed(1)},${x2.toFixed(1)} ${cy.toFixed(1)},${x2.toFixed(1)} ${y2.toFixed(1)}`;
+  return `<path d="${d}" stroke="${col}" stroke-width="${w||1.5}" fill="none"
+    ${dash ? `stroke-dasharray="${dash}"` : ''}
+    class="${cls||''}" opacity="${op||0.55}"/>`;
+}
+
+function drawLines() {
+  const cv = document.getElementById('canvas');
+  const sv = document.getElementById('svgLayer');
+  const W  = cv.offsetWidth;
+  const H  = cv.offsetHeight || parseInt(cv.style.minHeight) || 1000;
+  sv.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  sv.setAttribute('width',  W);
+  sv.setAttribute('height', H);
+
+  if (!showLines) { sv.innerHTML = ''; return; }
+
+  let html = '';
+  CONNECTIONS.forEach(c => {
+    const A = getCenter(c.from);
+    const B = getCenter(c.to);
+    if (!A || !B) return;
+
+    // از پایین فرستنده به بالای گیرنده
+    let x1 = A.x, y1 = A.b;
+    let x2 = B.x, y2 = B.t;
+
+    // اگه گیرنده بالاتر بود (Admin → Backend از پایین)
+    if (B.t < A.t) { y1 = A.t; y2 = B.b; }
+
+    html += makePath(x1, y1, x2, y2, c.col, c.dash, c.w, c.cls, c.op);
+  });
+
+  sv.innerHTML = html;
+}
+
+// ══════════════════════════════════════════════
+//  DRAG & DROP
+// ══════════════════════════════════════════════
+function initDrag() {
+  CARD_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    // Mouse
+    el.addEventListener('mousedown', e => {
+      if (isDragLocked || !e.target.closest('.drag-handle')) return;
+      if (e.button !== 0) return;
+      startDrag(el, e.clientX, e.clientY);
+      e.preventDefault();
+    });
+
+    // Touch
+    el.addEventListener('touchstart', e => {
+      if (isDragLocked || !e.target.closest('.drag-handle')) return;
+      const t = e.touches[0];
+      startDrag(el, t.clientX, t.clientY);
+      e.preventDefault();
+    }, { passive:false });
+  });
+
+  document.addEventListener('mousemove', e => onMove(e.clientX, e.clientY));
+  document.addEventListener('mouseup',   () => stopDrag());
+  document.addEventListener('touchmove', e => {
+    if (!dragging) return;
+    const t = e.touches[0];
+    onMove(t.clientX, t.clientY);
+    e.preventDefault();
+  }, { passive:false });
+  document.addEventListener('touchend', () => stopDrag());
+  document.addEventListener('touchcancel', () => stopDrag());
+  window.addEventListener('blur', () => stopDrag());
+}
+
+function startDrag(el, cx, cy) {
+  dragging = el;
+  const rect = el.getBoundingClientRect();
+  dragOffX = cx - rect.left;
+  dragOffY = cy - rect.top;
+  el.classList.add('dragging');
+  el.style.zIndex = 999;
+}
+
+function onMove(cx, cy) {
+  if (!dragging) return;
+  const cv   = document.getElementById('canvas');
+  const rect = cv.getBoundingClientRect();
+  let nx = cx - rect.left - dragOffX;
+  let ny = cy - rect.top  - dragOffY;
+
+  // محدود کردن به داخل canvas
+  nx = Math.max(0, Math.min(nx, cv.offsetWidth  - dragging.offsetWidth));
+  ny = Math.max(0, Math.min(ny, cv.offsetHeight - dragging.offsetHeight + 200));
+
+  dragging.style.left = nx + 'px';
+  dragging.style.top  = ny + 'px';
+  positions[dragging.id] = { x: nx, y: ny };
+  relativeLayout[dragging.id] = { xp: nx / cv.offsetWidth, y: ny };
+
+  updateCanvasHeight();
+  drawLines();
+}
+
+function stopDrag() {
+  if (!dragging) return;
+  dragging.classList.remove('dragging');
+  dragging.style.zIndex = 10;
+  dragging = null;
+  saveToStorage();
+}
+
+// ══════════════════════════════════════════════
+//  TOOLBAR ACTIONS
+// ══════════════════════════════════════════════
+function toggleLock() {
+  isDragLocked = !isDragLocked;
+  const btn = document.getElementById('btnLock');
+  btn.textContent = isDragLocked ? '🔒 حالت جابجایی غیرفعال' : '🔓 حالت جابجایی فعال';
+  btn.classList.toggle('active', isDragLocked);
+  updateLockButton();
+  document.body.style.cursor = isDragLocked ? 'default' : '';
+  CARD_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.cursor = isDragLocked ? 'default' : 'grab';
+  });
+}
+
+function toggleLines() {
+  showLines = !showLines;
+  const btn = document.getElementById('btnLines');
+  btn.textContent = showLines ? '〰️ مخفی‌کردن خطوط' : '〰️ نمایش خطوط';
+  btn.classList.toggle('active', !showLines);
+  btn.setAttribute('aria-pressed', String(showLines));
+  drawLines();
+}
+
+function resetLayout() {
+  try { localStorage.removeItem(STORAGE_KEY); } catch (error) {}
+  relativeLayout = {};
+  applyLayout(DEFAULT_LAYOUT);
+}
+
+function saveLayout(event) {
+  const success = saveToStorage();
+  const btn = event && event.currentTarget ? event.currentTarget : document.getElementById('btnSave');
+  if (!btn) return;
+  btn.textContent = success ? 'چیدمان ذخیره شد' : 'ذخیره در این مرورگر در دسترس نیست';
+  setTimeout(() => { btn.textContent = 'ذخیره چیدمان'; }, 1800);
+}
+
+function saveToStorage() {
+  const cv = document.getElementById('canvas');
+  const W = cv.offsetWidth;
+  const data = {};
+  CARD_IDS.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    data[id] = { xp: parseFloat(el.style.left) / W, y: parseFloat(el.style.top) };
+  });
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); return true; } catch (error) { return false; }
+}
+
+function loadFromStorage() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const data = JSON.parse(raw);
+      // بررسی اینکه همه کارت‌ها موجود هستند
+      const allPresent = CARD_IDS.every(id => data[id] && Number.isFinite(data[id].xp) && Number.isFinite(data[id].y) && data[id].xp >= 0 && data[id].xp <= 1 && data[id].y >= 0 && data[id].y <= 10000);
+      if (allPresent) return data;
+    }
+  } catch(e){}
+  return null;
+}
+
+// ══════════════════════════════════════════════
+//  BOOT
+// ══════════════════════════════════════════════
+function updateLockButton() {
+  const button = document.getElementById('btnLock');
+  button.textContent = isDragLocked ? 'فعال‌کردن جابه‌جایی کارت‌ها' : 'قفل‌کردن چیدمان';
+  button.setAttribute('aria-pressed', String(!isDragLocked));
+}
+
+window.addEventListener('load', () => {
+  const saved = loadFromStorage();
+  applyLayout(saved || DEFAULT_LAYOUT);
+  initDrag();
+  updateLockButton();
+  document.querySelector('.toolbar').hidden = false;
+});
+
+window.addEventListener('resize', () => {
+  const snapshot = {};
+  CARD_IDS.forEach(id => { snapshot[id] = relativeLayout[id] || DEFAULT_LAYOUT[id]; });
+  applyLayout(snapshot);
+});
+</script>
+</body>
+</html>
+
