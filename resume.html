@@ -1,1007 +1,1146 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مهر حسین - رزومه حرفه‌ای</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&display=swap');
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
-            background: #0f0f23;
-            color: #e0e0e0;
-            line-height: 1.8;
-            overflow-x: hidden;
-        }
-
-        /* پس‌زمینه متحرک */
-        .animated-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-            opacity: 0.05;
-            z-index: -1;
-            animation: gradientShift 15s ease infinite;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        /* هدر */
-        header {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
-            backdrop-filter: blur(10px);
-            color: white;
-            padding: 80px 20px;
-            text-align: center;
-            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        header h1 {
-            font-size: 4rem;
-            font-weight: 900;
-            margin-bottom: 15px;
-            text-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            animation: fadeInDown 1s ease;
-            position: relative;
-            z-index: 1;
-        }
-
-        header .subtitle {
-            font-size: 1.4rem;
-            opacity: 0.95;
-            margin-bottom: 25px;
-            animation: fadeInUp 1s ease 0.3s both;
-            position: relative;
-            z-index: 1;
-        }
-
-        .btn-home {
-            display: inline-block;
-            background: white;
-            color: #667eea;
-            padding: 12px 35px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 20px;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            animation: fadeIn 1s ease 0.6s both;
-            position: relative;
-            z-index: 1;
-        }
-
-        .btn-home:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-            background: #f0f0f0;
-        }
-
-        /* کانتینر */
-        .container {
-            max-width: 1400px;
-            margin: 60px auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: 380px 1fr;
-            gap: 40px;
-        }
-
-        /* سایدبار */
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        /* کارت‌ها */
-        .card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            padding: 35px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            transition: all 0.4s ease;
-            animation: fadeInUp 0.8s ease both;
-        }
-
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 50px rgba(102, 126, 234, 0.4);
-            border-color: rgba(102, 126, 234, 0.5);
-        }
-
-        .card h2 {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-size: 2rem;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid rgba(102, 126, 234, 0.3);
-            font-weight: 700;
-        }
-
-        .card h3 {
-            color: #a78bfa;
-            font-size: 1.4rem;
-            margin-top: 25px;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        /* مهارت‌ها */
-        .skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .skill-tag {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-            transition: all 0.3s ease;
-            cursor: default;
-        }
-
-        .skill-tag:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
-        }
-
-        /* پروژه‌ها */
-        .project {
-            margin-bottom: 40px;
-            padding: 0;
-            background: rgba(102, 126, 234, 0.08);
-            border-radius: 20px;
-            border: 1px solid rgba(102, 126, 234, 0.2);
-            transition: all 0.4s ease;
-            overflow: hidden;
-        }
-
-        .project:hover {
-            transform: translateY(-5px);
-            background: rgba(102, 126, 234, 0.12);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
-            border-color: rgba(102, 126, 234, 0.4);
-        }
-
-        .project-image {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            border-radius: 20px 20px 0 0;
-        }
-
-        .project-content {
-            padding: 30px;
-        }
-
-        .project h3 {
-            color: #a78bfa;
-            margin-top: 0;
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-        }
-
-        .project p {
-            color: #d1d5db;
-            line-height: 2;
-            margin-bottom: 20px;
-        }
-
-        .project-meta {
-            color: #9ca3af;
-            font-size: 0.95rem;
-            margin: 15px 0;
-            line-height: 2;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 15px;
-            border-radius: 10px;
-        }
-
-        .project-meta strong {
-            color: #e5e7eb;
-        }
-
-        .project-links {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
-        .btn-video {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(245, 87, 108, 0.3);
-        }
-
-        .btn-video:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.5);
-        }
-
-        .btn-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn-link:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
-        }
-
-        /* افتخارات */
-        .award-item {
-            padding: 15px 20px;
-            margin-bottom: 15px;
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 193, 7, 0.05) 100%);
-            border-radius: 12px;
-            border-right: 4px solid #ffd700;
-            transition: all 0.3s ease;
-            position: relative;
-            font-size: 0.95rem;
-        }
-
-        .award-item:hover {
-            transform: translateX(-5px);
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 193, 7, 0.08) 100%);
-            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.2);
-        }
-
-        .award-item strong {
-            color: #fbbf24;
-            font-size: 1rem;
-        }
-
-        /* تدریس */
-        .teaching-list {
-            display: grid;
-            gap: 12px;
-        }
-
-        .teaching-item {
-            padding: 12px 15px;
-            background: rgba(102, 126, 234, 0.1);
-            border-radius: 10px;
-            border-right: 3px solid #667eea;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
-
-        .teaching-item:hover {
-            transform: translateX(-5px);
-            background: rgba(102, 126, 234, 0.15);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
-        }
-
-        /* لیست‌ها */
-        ul {
-            list-style: none;
-            padding-right: 0;
-        }
-
-        ul li {
-            padding: 10px 0 10px 25px;
-            position: relative;
-            color: #d1d5db;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-        }
-
-        ul li:before {
-            content: "✓";
-            position: absolute;
-            right: 0;
-            color: #667eea;
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-
-        ul li:hover {
-            color: #f3f4f6;
-            transform: translateX(-5px);
-        }
-
-        /* تماس */
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: rgba(102, 126, 234, 0.08);
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            font-size: 1.05rem;
-        }
-
-        .contact-item:hover {
-            background: rgba(102, 126, 234, 0.15);
-            transform: translateX(-5px);
-        }
-
-        .contact-item a {
-            color: #a78bfa;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
-        }
-
-        .contact-item a:hover {
-            color: #c4b5fd;
-        }
-
-        /* دسته‌بندی پروژه‌ها */
-        .project-category {
-            margin-bottom: 50px;
-        }
-
-        .category-title {
-            font-size: 2.2rem;
-            color: #f093fb;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid rgba(240, 147, 251, 0.3);
-            font-weight: 700;
-        }
-
-        /* فوتر */
-        footer {
-            text-align: center;
-            padding: 40px;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            color: #9ca3af;
-            margin-top: 80px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* انیمیشن‌ها */
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* ریسپانسیو */
-        @media (max-width: 1024px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar {
-                position: static;
-            }
-
-            header h1 {
-                font-size: 2.5rem;
-            }
-
-            .project-image {
-                height: 200px;
-            }
-        }
-
-        /* اسکرول بار */
-        ::-webkit-scrollbar {
-            width: 12px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #1a1a2e;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="رزومه و نمونه‌کارهای مهر حسین؛ توسعه بک‌اند با ASP.NET Core، بازی‌سازی Unity، بینایی ماشین و سیستم‌های تعاملی و صنعتی.">
+<meta name="theme-color" content="#0b1320">
+<title>مهر حسین | توسعه‌دهنده نرم‌افزار و سیستم‌های تعاملی</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="resume.css">
+<script src="resume.js" defer>
+</script>
 </head>
 <body>
-    <div class="animated-bg"></div>
-
-    <!-- هدر -->
-    <header>
-        <h1>مهر حسین</h1>
-        <p class="subtitle">💻 Backend Developer | 🎮 Unity Game Developer | 🤖 Robotics Instructor</p>
-        <a href="index.html" class="btn-home">🏠 بازگشت به خانه</a>
-    </header>
-
-    <!-- محتوای اصلی -->
-    <div class="container">
-        <!-- سایدبار -->
-        <aside class="sidebar">
-            <!-- درباره من -->
-            <div class="card" style="animation-delay: 0.1s">
-                <h2>📋 درباره من</h2>
-                <p style="color: #d1d5db; line-height: 2;">
-                    توسعه‌دهنده بک‌اند، بازی‌ساز Unity و متخصص سیستم‌های تعاملی با بیش از ۱۵ پروژه موفق در حوزه‌های 
-                    اتوماسیون، بازی‌سازی، میکروکنترلر و سیستم‌های تعاملی. تجربه طراحی و پیاده‌سازی راه‌حل‌های نرم‌افزاری 
-                    و سخت‌افزاری یکپارچه برای صنایع تفریحی و صنعتی.
-                </p>
-            </div>
-
-            <!-- مهارت‌ها -->
-            <div class="card" style="animation-delay: 0.2s">
-                <h2>💻 مهارت‌ها</h2>
-                <div class="skills">
-                    <span class="skill-tag">ASP.NET Core</span>
-                    <span class="skill-tag">C#</span>
-                    <span class="skill-tag">Unity 3D</span>
-                    <span class="skill-tag">C++</span>
-                    <span class="skill-tag">WinForms</span>
-                    <span class="skill-tag">MySQL</span>
-                    <span class="skill-tag">Dapper</span>
-                    <span class="skill-tag">REST API</span>
-                    <span class="skill-tag">JWT</span>
-                    <span class="skill-tag">SignalR</span>
-                    <span class="skill-tag">OpenCV</span>
-                    <span class="skill-tag">Kinect SDK</span>
-                    <span class="skill-tag">AVR/STM32</span>
-                    <span class="skill-tag">NFC</span>
-                    <span class="skill-tag">Python</span>
-                    <span class="skill-tag">Java</span>
-                </div>
-            </div>
-
-            <!-- تماس -->
-            <div class="card" style="animation-delay: 0.3s">
-                <h2>📞 تماس با من</h2>
-                <div class="contact-info">
-                    <div class="contact-item">
-                        🌐 <a href="https://www.mehrhossin.ir" target="_blank">mehrhossin.ir</a>
-                    </div>
-                    <div class="contact-item">
-                        💼 <a href="https://github.com/mehrhossin" target="_blank">GitHub</a>
-                    </div>
-                    <div class="contact-item">
-                        ✉️ <a href="mailto:your-email@example.com">ایمیل من</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- سوابق تدریس -->
-            <div class="card" style="animation-delay: 0.4s">
-                <h2>🎓 سوابق تدریس</h2>
-                
-                <h3>📍 مراکز تدریس:</h3>
-                <div class="teaching-list">
-                    <div class="teaching-item">🏛️ دانشگاه آزاد اسلامی</div>
-                    <div class="teaching-item">🏛️ دانشگاه سما</div>
-                    <div class="teaching-item">🏛️ دانشگاه پیام نور</div>
-                    <div class="teaching-item">🏛️ دانشگاه علم و فناوری مازندران</div>
-                    <div class="teaching-item">🏫 آموزشگاه‌های مطرح ساری</div>
-                </div>
-
-                <h3>📚 دروس تخصصی:</h3>
-                <ul>
-                    <li>برنامه‌نویسی پیشرفته</li>
-                    <li>آموزش C و C++</li>
-                    <li>آموزش C# و Java</li>
-                    <li>آموزش Python</li>
-                    <li>بازی‌سازی با Unity</li>
-                    <li>Machine Learning و Deep Learning</li>
-                    <li>اپلیکیشن Windows و Android</li>
-                </ul>
-            </div>
-
-            <!-- افتخارات -->
-            <div class="card" style="animation-delay: 0.5s">
-                <h2>🏆 افتخارات و جوایز</h2>
-                
-                <div class="award-item">
-                    <strong>🥇 مقام اول</strong><br>
-                    جشنواره جوان خوارزمی
-                </div>
-                
-                <div class="award-item">
-                    <strong>🥇 مقام اول</strong><br>
-                    مسابقات روباتیک بین‌المللی دانشگاه امیرکبیر
-                </div>
-                
-                <div class="award-item">
-                    <strong>🥇 مقام اول</strong><br>
-                    مسابقات روباتیک کشوری دانشگاه بابل
-                </div>
-                
-                <div class="award-item">
-                    <strong>🥈 مقام دوم</strong><br>
-                    مسابقات روباتیک دانشگاه اصفهان
-                </div>
-                
-                <div class="award-item">
-                    <strong>🥉 مقام سوم (مربی)</strong><br>
-                    مسابقات روباتیک دانشگاه سما شیراز
-                </div>
-                
-                <div class="award-item">
-                    <strong>🥈 مقام دوم (مربی)</strong><br>
-                    مسابقات کشوری PNU Open
-                </div>
-            </div>
-        </aside>
-
-        <!-- محتوای اصلی -->
-        <main class="main-content">
-            <!-- پروژه‌های اصلی Backend -->
-            <div class="card" style="animation-delay: 0.6s">
-                <h2 class="category-title">💼 پروژه‌های اصلی Backend و مدیریت شهربازی</h2>
-
-                <!-- پروژه 1: سرور مرکزی اینفینیتی -->
-                <div class="project">
-                    <img src="image/infinity-server.jpg" alt="سرور مرکزی اینفینیتی" class="project-image">
-                    <div class="project-content">
-                        <h3>⚡ سرور مرکزی مدیریت شهربازی Infinity</h3>
-                        <p>
-                            طراحی و پیاده‌سازی کامل سرور داخلی تحت شبکه Local/LAN برای اتوماسیون و مدیریت عملیات
-                            شهربازی Infinity، شامل فروش، مدیریت کاربران، مشتریان، دستبندهای NFC، کیف پول دیجیتال،
-                            صندوق، بازی‌ها، دستگاه‌ها، گیت‌های ورود و خروج، تخفیف‌ها، لیدربورد و گزارشات مدیریتی.
-                        </p>
-                        <div class="project-meta">
-                            <strong>کارفرما:</strong> شرکت رابین‌تک<br>
+<a class="skip-link" href="#main">رفتن به محتوای اصلی</a>
+<header class="site-header">
+<div class="shell header-inner">
+<a class="brand" href="index.html" aria-label="مهر حسین؛ صفحه خانه">
+<span class="brand-mark" aria-hidden="true">m<span>.</span>
+</span>
+<span>مهر حسین<small dir="ltr">SOFTWARE & INTERACTIVE SYSTEMS</small>
+</span>
+</a>
+<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" hidden>فهرست <span aria-hidden="true">☰</span>
+</button>
+<nav id="main-nav" aria-label="ناوبری اصلی">
+<a href="#selected">پروژه‌های منتخب</a>
+<a href="#experience">سوابق</a>
+<a href="#expertise">تخصص‌ها</a>
+<a href="#teaching">تدریس</a>
+<a class="nav-contact" href="#contact">ارتباط با من <span aria-hidden="true">↗</span>
+</a>
+</nav>
+</div>
+</header>
+<main id="main">
+<section class="hero shell" aria-labelledby="hero-title">
+<div class="hero-copy">
+<p class="eyebrow">
+<span class="tiny-line" aria-hidden="true">
+</span> رزومه و پورتفولیوی حرفه‌ای</p>
+<p class="hero-name">سلام، من مهر حسین هستم.</p>
+<h1 id="hero-title">از کد،<br>تا <span>دنیای واقعی.</span>
+</h1>
+<p class="hero-role">توسعه‌دهنده نرم‌افزار و سیستم‌های تعاملی</p>
+<p class="hero-description">با تجربه اجرای بیش از ۱۵ پروژه در حوزه‌های تفریحی و صنعتی، بک‌اند، بازی و سخت‌افزار را به هم متصل می‌کنم؛ از سامانه‌های مدیریتی با <bdi>ASP.NET Core</bdi> تا بازی‌های <bdi>Unity</bdi> و محصولاتی که با حرکت، تصویر و سنسور زنده می‌شوند.</p>
+<div class="actions">
+<a class="button button-primary" href="#selected">پروژه‌های منتخب <span aria-hidden="true">↙</span>
+</a>
+<button class="button button-secondary print-button" type="button" hidden>چاپ / ذخیره PDF <span aria-hidden="true">↓</span>
+</button>
+</div>
+<div class="hero-foot">
+<span>نرم‌افزار · بازی · صنعت</span>
+<a href="https://github.com/mehrhossin" target="_blank" rel="noopener noreferrer">
+<bdi>GitHub</bdi> ↗</a>
+</div>
+</div>
+<figure class="hero-project">
+<div class="figure-top">
+<span class="project-indicator" aria-hidden="true">
+</span>
+<bdi>PROJECT / INFINITY</bdi>
+<span class="figure-index">۰۱</span>
+</div>
+<a href="#project-infinity-server">
+<img src="image/infinity-server.jpg" alt="محیط توسعه و اجرای سرور مرکزی مدیریت شهربازی اینفینیتی" width="1798" height="1011" fetchpriority="high">
+</a>
+<figcaption>
+<div>
+<span class="eyebrow">از معماری تا پیاده‌سازی</span>
+<strong>یک سامانه، چند تجربه متصل.</strong>
+</div>
+<span class="caption-arrow" aria-hidden="true">↙</span>
+</figcaption>
+<div class="architecture" aria-label="اجزای سامانه">
+<span>
+<bdi>ASP.NET Core</bdi>
+<small>سرور مرکزی</small>
+</span>
+<i aria-hidden="true">⟷</i>
+<span>
+<bdi>WinForms</bdi>
+<small>مدیریت عملیات</small>
+</span>
+<i aria-hidden="true">⟷</i>
+<span>
+<bdi>Unity + NFC</bdi>
+<small>کلاینت تعاملی</small>
+</span>
+</div>
+</figure>
+</section>
+<div class="shell specialties" aria-label="حوزه‌های کاری">
+<div>
+<span class="specialty-number" aria-hidden="true">01 /</span>
+<h2>بک‌اند و سامانه‌های مدیریتی</h2>
+<p>معماری API، داده و ارتباط بخش‌های محصول</p>
+</div>
+<div>
+<span class="specialty-number" aria-hidden="true">02 /</span>
+<h2>بازی و تجربه‌های تعاملی</h2>
+<p>Unity، پردازش تصویر و تعامل با دنیای واقعی</p>
+</div>
+<div>
+<span class="specialty-number" aria-hidden="true">03 /</span>
+<h2>نرم‌افزار صنعتی و سخت‌افزار</h2>
+<p>میکروکنترلر، سنسور و کنترل تجهیزات</p>
+</div>
+</div>
+<section id="selected" class="section shell" aria-labelledby="selected-title">
+<div class="section-heading">
+<div>
+<p class="eyebrow">۰۱ / منتخب تجربه‌ها</p>
+<h2 id="selected-title">پروژه‌هایی در مرز<br>نرم‌افزار و دنیای واقعی.</h2>
+</div>
+<a class="text-link" href="#projects">همه پروژه‌ها <span aria-hidden="true">↙</span>
+</a>
+</div>
+<article class="featured-project playwin-feature">
+<a class="featured-image" href="playwin.html">
+<img src="image/playwin-architecture.svg" alt="نمای معماری PlayWin؛ ارتباط بک‌اند، گیم‌سرور Unity و کنسول دستگاه بازی" loading="lazy" decoding="async" width="960" height="640">
+<span class="image-label" dir="ltr">01 / PLAYWIN — ONLINE ARCADE</span>
+</a>
+<div class="featured-copy">
+<p class="eyebrow">PlayWin · بازی آنلاین روی دستگاه‌های آرکید</p>
+<h3>از بک‌اند و گیم‌سرور،<br>تا کنسول و ارتباط بازی.</h3>
+<p>طراحی و پیاده‌سازی یکپارچه بک‌اند، سرور مرکزی، گیم‌سرور Unity Headless، کنسول و ارتباط بازی‌ها با سرور؛ از ورود بازیکن و لابی تا اجرای بازی و ثبت نتیجه.</p>
+<dl class="case-points">
+<div><dt>نقش من</dt><dd>طراحی و پیاده‌سازی سرتاسری نرم‌افزار و ارتباطات</dd></div>
+<div><dt>معماری</dt><dd>REST API و JWT برای هویت و فرمان‌ها؛ SignalR برای لابی و اعلان‌ها؛ Mirror KCP/UDP برای گیم‌پلی</dd></div>
+<div><dt>داده و نشست</dt><dd>MySQL و Dapper، به‌همراه Redis و Lua برای صف، وضعیت و توکن ورود</dd></div>
+</dl>
+<ul class="tags" aria-label="فناوری‌های PlayWin"><li><bdi>ASP.NET Core 8</bdi></li><li><bdi>Redis + Lua</bdi></li><li><bdi>Unity Headless</bdi></li><li><bdi>Mirror KCP</bdi></li></ul>
+<div class="case-links"><a class="text-link" href="playwin.html">بررسی کامل پروژه ↗</a><a class="text-link" href="playwin-architecture.html">معماری تعاملی ↗</a></div>
+<p class="diagram-caption">تصویر: نمای شماتیک معماری پروژه</p>
+</div>
+</article>
+<article class="featured-project">
+<a class="featured-image" href="#project-infinity-server">
+<img src="image/rabintech-desktop.jpg" alt="رابط نرم‌افزار دسکتاپ مدیریت شهربازی" loading="lazy" decoding="async" width="960" height="540">
+<span class="image-label" dir="ltr">02 / BACKEND & DESKTOP</span>
+</a>
+<div class="featured-copy">
+<p class="eyebrow">شرکت رابین‌تک · محصول یکپارچه</p>
+<h3>مدیریت شهربازی،<br>از سرور تا دستگاه بازی.</h3>
+<p>طراحی بک‌اند مرکزی، نرم‌افزار مدیریت دسکتاپ و کلاینت تاچ Unity برای اتصال عملیات شهربازی در شبکه داخلی.</p>
+<dl class="case-points">
+<div>
+<dt>مسئله</dt>
+<dd>یکپارچه‌سازی کاربران، فروش، کیف پول و دستگاه‌ها</dd>
+</div>
+<div>
+<dt>نقش من</dt>
+<dd>طراحی و توسعه بک‌اند، کلاینت دسکتاپ و Unity</dd>
+</div>
+<div>
+<dt>راه‌حل</dt>
+<dd>ارتباط API میان سرور و کلاینت‌ها، احراز هویت JWT و شناسایی بازیکن با NFC</dd>
+</div>
+</dl>
+<ul class="tags" aria-label="فناوری‌ها">
+<li>
+<bdi>ASP.NET Core</bdi>
+</li>
+<li>
+<bdi>MySQL</bdi>
+</li>
+<li>
+<bdi>SignalR</bdi>
+</li>
+<li>
+<bdi>Unity</bdi>
+</li>
+</ul>
+<div class="case-links">
+<a class="text-link" href="#project-infinity-server">سرور مرکزی ↙</a>
+<a class="text-link" href="#project-desktop-client">کلاینت دسکتاپ ↙</a>
+<a class="text-link" href="#project-unity-client">کلاینت Unity ↙</a>
+</div>
+</div>
+</article>
+<div class="selected-pair">
+<article class="selected-project">
+<a class="selected-image" href="#project-funnyball">
+<img src="image/funnyball.jpg" alt="محصول فانی بال؛ بازی تعاملی با تشخیص برخورد توپ" loading="lazy" decoding="async" width="960" height="540">
+<span class="image-label" dir="ltr">03 / COMPUTER VISION</span>
+</a>
+<div class="selected-copy">
+<p class="eyebrow">Unity × OpenCV</p>
+<h3>وقتی توپ واقعی، بخشی از بازی است.</h3>
+<p>بازنویسی فانی بال با تشخیص برخورد توپ؛ قابل اجرا روی دیوار استخر توپ و دستگاه تاچ، با ۶ بازی مختلف.</p>
+<p class="project-role">نقش: بازی‌ساز و برنامه‌نویس بینایی ماشین</p>
+<a class="text-link" href="#project-funnyball">جزئیات فانی بال ↙</a>
+</div>
+</article>
+<article class="selected-project">
+<a class="selected-image" href="#project-touch-surfaces">
+<img src="image/touch-surface.jpg" alt="تبدیل سطح بزرگ به محیط لمسی با لیزر اسکنر" loading="lazy" decoding="async" width="960" height="540">
+<span class="image-label" dir="ltr">04 / INTERACTIVE SYSTEMS</span>
+</a>
+<div class="selected-copy">
+<p class="eyebrow">C# × Laser Scanner</p>
+<h3>یک سطح معمولی، یک تجربه تعاملی.</h3>
+<p>توسعه سرویس مبتنی بر لیزر اسکنر برای تبدیل دیوار و زمین به سطح لمسی؛ با تست موفق تا ۱۲ متر.</p>
+<p class="project-role">نقش: توسعه‌دهنده نرم‌افزار</p>
+<a class="text-link" href="#project-touch-surfaces">جزئیات سطح تعاملی ↙</a>
+</div>
+</article>
+</div>
+</section>
+<section id="experience" class="section section-lined shell" aria-labelledby="experience-title">
+<div class="section-heading">
+<div>
+<p class="eyebrow">۰۲ / تجربه حرفه‌ای</p>
+<h2 id="experience-title">مسیر ساختن و حل مسئله.</h2>
+</div>
+<p class="section-intro">تجربه در توسعه محصول، مسئولیت فنی، پژوهش رباتیک و زیرساخت نرم‌افزار.</p>
+</div>
+<div class="experience-list">
+<article class="experience-item">
+<span class="experience-type">توسعه محصول</span>
+<div>
+<h3>توسعه نرم‌افزار و بازی‌های تعاملی</h3>
+<p class="company">شرکت بازی‌سازان رابین‌تک</p>
+<p>توسعه سامانه مدیریت شهربازی، کلاینت‌های دسکتاپ و Unity، بازی‌های تعاملی و ارتباط با تجهیزات الکترونیکی.</p>
+<a class="text-link" href="#project-infinity-server">نمونه پروژه مرتبط ↙</a>
+</div>
+</article>
+<article class="experience-item">
+<span class="experience-type">مدیریت نرم‌افزار</span>
+<div>
+<h3>مدیر بخش نرم‌افزار</h3>
+<p class="company">شرکت توسعه صنعت پویاگران</p>
+<p>سابقه فعالیت در مدیریت بخش نرم‌افزار و توسعه راه‌حل‌های نرم‌افزاری.</p>
+</div>
+</article>
+<article class="experience-item">
+<span class="experience-type">پژوهش و رباتیک</span>
+<div>
+<h3>برنامه‌نویس گروه تحقیقاتی رباتیک</h3>
+<p class="company">دانشگاه آزاد اسلامی واحد ساری</p>
+<p>چهار سال فعالیت در گروه تحقیقاتی رباتیک؛ برنامه‌نویسی و کار با سیستم‌های رباتیک.</p>
+</div>
+</article>
+<article class="experience-item">
+<span class="experience-type">مسئولیت فنی</span>
+<div>
+<h3>مسئول فنی</h3>
+<p class="company">شرکت عرشرو طبرستان</p>
+<p>سابقه مسئولیت فنی در شهرک صنعتی شماره ۲ ساری.</p>
+</div>
+</article>
+<article class="experience-item">
+<span class="experience-type">زیرساخت و پشتیبانی</span>
+<div>
+<h3>پشتیبانی نرم‌افزار، سخت‌افزار و شبکه</h3>
+<p class="company">شرکت نسیم صباح مازند</p>
+<p>پشتیبانی سیستم‌های نرم‌افزاری، سخت‌افزاری و شبکه مجموعه.</p>
+</div>
+</article>
+</div>
+</section>
+<section id="expertise" class="section shell" aria-labelledby="expertise-title">
+<div class="section-heading">
+<div>
+<p class="eyebrow">۰۳ / ابزارهایی برای ساختن</p>
+<h2 id="expertise-title">تخصص، در بستر یک پروژه واقعی.</h2>
+</div>
+</div>
+<div class="expertise-grid">
+<article>
+<p class="eyebrow" dir="ltr">BACKEND & DATA</p>
+<h3>بک‌اند و داده</h3>
+<ul class="tags" aria-label="فناوری‌ها">
+<li>
+<bdi>ASP.NET Core</bdi>
+</li>
+<li>
+<bdi>C#</bdi>
+</li>
+<li>
+<bdi>REST API</bdi>
+</li>
+<li>
+<bdi>MySQL</bdi>
+</li>
+<li>
+<bdi>Dapper</bdi>
+</li>
+<li><bdi>Redis + Lua</bdi></li>
+<li>
+<bdi>JWT</bdi>
+</li>
+<li>
+<bdi>SignalR</bdi>
+</li>
+</ul>
+<p>توسعه API و سامانه‌های مدیریت؛ در کنار تجربه برنامه‌نویسی با Python و Java.</p>
+<a class="text-link" href="#project-infinity-server">در پروژه سرور اینفینیتی ↙</a>
+<a class="text-link expertise-playwin" href="playwin.html">Redis و Lua در PlayWin ↗</a>
+</article>
+<article>
+<p class="eyebrow" dir="ltr">GAMES & COMPUTER VISION</p>
+<h3>بازی و بینایی ماشین</h3>
+<ul class="tags" aria-label="فناوری‌ها">
+<li>
+<bdi>Unity 3D</bdi>
+</li>
+<li>
+<bdi>OpenCV</bdi>
+</li>
+<li>
+<bdi>Emgu CV</bdi>
+</li>
+<li>
+<bdi>Kinect SDK</bdi>
+</li>
+<li>
+<bdi>Body & Depth Tracking</bdi>
+</li>
+<li><bdi>Unity Headless</bdi></li>
+<li><bdi>Mirror</bdi></li>
+<li><bdi>KCP / UDP</bdi></li>
+</ul>
+<p>بازی‌های متصل به دوربین و سنسور؛ تبدیل حرکت، عمق و تصویر به ورودی تعاملی.</p>
+<a class="text-link" href="#project-funnyball">در پروژه فانی بال ↙</a>
+<a class="text-link expertise-playwin" href="playwin.html">Unity Headless و Mirror KCP در PlayWin ↗</a>
+</article>
+<article>
+<p class="eyebrow" dir="ltr">DESKTOP & DEVICE INTEGRATION</p>
+<h3>دسکتاپ و ارتباط با تجهیزات</h3>
+<ul class="tags" aria-label="فناوری‌ها">
+<li>
+<bdi>WinForms</bdi>
+</li>
+<li>
+<bdi>Windows API</bdi>
+</li>
+<li>
+<bdi>NFC</bdi>
+</li>
+<li>
+<bdi>Serial</bdi>
+</li>
+<li>
+<bdi>I²C</bdi>
+</li>
+<li>
+<bdi>SPI</bdi>
+</li>
+<li>
+<bdi>EPOS</bdi>
+</li>
+</ul>
+<p>اتصال نرم‌افزار به تجهیزات، لیزراسکنرهای UTM-30LX و URG-04LX-UG01 و کنترل حرکت.</p>
+<a class="text-link" href="#project-desktop-client">در کلاینت مدیریت شهربازی ↙</a>
+</article>
+<article>
+<p class="eyebrow" dir="ltr">EMBEDDED & CONTROL</p>
+<h3>سیستم‌های نهفته و کنترل</h3>
+<ul class="tags" aria-label="فناوری‌ها">
+<li>
+<bdi>C</bdi>
+</li>
+<li>
+<bdi>C++</bdi>
+</li>
+<li>
+<bdi>AVR</bdi>
+</li>
+<li>
+<bdi>STM32</bdi>
+</li>
+<li>
+<bdi>ARM</bdi>
+</li>
+<li>
+<bdi>Sensors</bdi>
+</li>
+</ul>
+<p>برنامه‌نویسی میکروکنترلر و کار با سنسورهای اولتراسونیک، مادون قرمز، لیزر، دما و فشار؛ آشنایی با DSP در STM32.</p>
+<a class="text-link" href="#project-ultrasonic">در پروژه کنتور اولتراسونیک ↙</a>
+</article>
+</div>
+</section>
+<section id="projects" class="section section-lined shell" aria-labelledby="projects-title">
+<div class="section-heading">
+<div>
+<p class="eyebrow">۰۴ / آرشیو پروژه‌ها</p>
+<h2 id="projects-title">از بازی تا صنعت.</h2>
+</div>
+<p class="section-intro">مجموعه پروژه‌ها با شرح نقش، فناوری‌ها و لینک محصول در بخش جزئیات هر پروژه.</p>
+</div>
+<div class="project-toolbar" hidden>
+<div class="filters" role="group" aria-label="فیلتر حوزه پروژه">
+<button type="button" data-filter="all" aria-pressed="true">همه <span>۲۱</span>
+</button>
+<button type="button" data-filter="backend" aria-pressed="false">بک‌اند و دسکتاپ</button>
+<button type="button" data-filter="unity" aria-pressed="false">بازی و Unity</button>
+<button type="button" data-filter="vision" aria-pressed="false">بینایی ماشین</button>
+<button type="button" data-filter="hardware" aria-pressed="false">صنعت و سخت‌افزار</button>
+</div>
+<p class="filter-status" aria-live="polite" aria-atomic="true">
+</p>
+</div>
+<div class="archive-grid">
+<article class="archive-project" id="project-playwin" data-category="backend unity">
+<div class="archive-visual"><a href="playwin.html"><img src="image/playwin-architecture.svg" alt="معماری PlayWin؛ بک‌اند، سرور بازی و کنسول" loading="lazy" decoding="async" width="960" height="640"></a></div>
+<div class="archive-body">
+<p class="eyebrow">بک‌اند و بازی آنلاین</p>
+<h3>PlayWin؛ سامانه بازی آنلاین آرکید</h3>
+<p>طراحی و پیاده‌سازی بک‌اند و سرور مرکزی، گیم‌سرور Unity Headless، کنسول و ارتباط بازی‌ها با سرور. مدیریت ورود دستگاه و بازیکن، لابی و matchmaking، اجرای بازی با Mirror KCP/UDP و ثبت نتیجه و تراکنش‌های اقتصادی در بک‌اند.</p>
+<details>
+<summary>نقش و جزئیات پروژه <span aria-hidden="true">＋</span></summary>
+<div class="project-meta"><strong>نقش:</strong> طراحی و پیاده‌سازی سرتاسری<br><strong>معماری:</strong> ASP.NET Core 8، SignalR، Unity Headless و Console<br><strong>داده و وضعیت:</strong> MySQL + Dapper، Redis + Lua<br><a href="playwin.html">مطالعه کامل پروژه ↗</a><br><a href="playwin-architecture.html">نمودار تعاملی معماری ↗</a></div>
+<ul class="tags" aria-label="فناوری‌ها"><li><bdi>ASP.NET Core 8</bdi></li><li><bdi>C#</bdi></li><li><bdi>SignalR</bdi></li><li><bdi>Redis + Lua</bdi></li><li><bdi>MySQL</bdi></li><li><bdi>Dapper</bdi></li><li><bdi>Unity Headless</bdi></li><li><bdi>Mirror</bdi></li><li><bdi>KCP / UDP</bdi></li></ul>
+</details>
+</div>
+</article>
+<article class="archive-project" id="project-infinity-server" data-category="backend">
+<div class="archive-visual">
+<img src="image/infinity-server.jpg" alt="سرور مرکزی مدیریت شهربازی Infinity" loading="lazy" decoding="async" width="960" height="540">
+</div>
+<div class="archive-body">
+<p class="eyebrow">بک‌اند و مدیریت</p>
+<h3>سرور مرکزی مدیریت شهربازی Infinity</h3>
+<p>طراحی و پیاده‌سازی کامل سرور داخلی تحت شبکه Local/LAN برای اتوماسیون و مدیریت عملیات شهربازی Infinity، شامل فروش، مدیریت کاربران، مشتریان، دستبندهای NFC، کیف پول دیجیتال، صندوق، بازی‌ها، دستگاه‌ها، گیت‌های ورود و خروج، تخفیف‌ها، لیدربورد و گزارشات مدیریتی.</p>
+<details>
+<summary>نقش و جزئیات پروژه <span aria-hidden="true">＋</span>
+</summary>
+<div class="project-meta">
+<strong>کارفرما:</strong> شرکت رابین‌تک<br>
                             <strong>مدت زمان:</strong> حدود ۴ ماه<br>
                             <strong>نقش:</strong> طراح و توسعه‌دهنده بک‌اند<br>
-                            <strong>نوع اجرا:</strong> سرور داخلی Local/LAN
-                        </div>
-                        <div class="skills">
-                            <span class="skill-tag">ASP.NET Core</span>
-                            <span class="skill-tag">MySQL</span>
-                            <span class="skill-tag">JWT</span>
-                            <span class="skill-tag">SignalR</span>
-                            <span class="skill-tag">NFC</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- پروژه 2: اپلیکیشن دسکتاپ -->
-                <div class="project">
-                    <img src="image/rabintech-desktop.jpg" alt="اپلیکیشن دسکتاپ" class="project-image">
-                    <div class="project-content">
-                        <h3>🖥️ اپلیکیشن دسکتاپ مدیریت شهربازی</h3>
-                        <p>
-                            طراحی و توسعه اپلیکیشن دسکتاپ مدیریتی برای کنترل عملیات شهربازی در بستر شبکه داخلی،
-                            شامل مدیریت مشتریان، دستبندهای NFC، کیف پول دیجیتال، صندوق، شیفت‌های کاری، تخفیف‌ها،
-                            بازی‌ها، دستگاه‌ها، لاکرها، کیوسک‌ها و گزارشات مالی.
-                        </p>
-                        <div class="project-meta">
-                            <strong>کارفرما:</strong> شرکت رابین‌تک<br>
+                            <strong>نوع اجرا:</strong> سرور داخلی Local/LAN</div>
+<ul class="tags" aria-label="فناوری‌ها">
+<li>
+<bdi>ASP.NET Core</bdi>
+</li>
+<li>
+<bdi>MySQL</bdi>
+</li>
+<li>
+<bdi>JWT</bdi>
+</li>
+<li>
+<bdi>SignalR</bdi>
+</li>
+<li>
+<bdi>NFC</bdi>
+</li>
+</ul>
+</details>
+</div>
+</article>
+<article class="archive-project" id="project-desktop-client" data-category="backend">
+<div class="archive-visual">
+<img src="image/rabintech-desktop.jpg" alt="اپلیکیشن دسکتاپ مدیریت شهربازی" loading="lazy" decoding="async" width="960" height="540">
+</div>
+<div class="archive-body">
+<p class="eyebrow">دسکتاپ و مدیریت</p>
+<h3>اپلیکیشن دسکتاپ مدیریت شهربازی</h3>
+<p>طراحی و توسعه اپلیکیشن دسکتاپ مدیریتی برای کنترل عملیات شهربازی در بستر شبکه داخلی، شامل مدیریت مشتریان، دستبندهای NFC، کیف پول دیجیتال، صندوق، شیفت‌های کاری، تخفیف‌ها، بازی‌ها، دستگاه‌ها، لاکرها، کیوسک‌ها و گزارشات مالی.</p>
+<details>
+<summary>نقش و جزئیات پروژه <span aria-hidden="true">＋</span>
+</summary>
+<div class="project-meta">
+<strong>کارفرما:</strong> شرکت رابین‌تک<br>
                             <strong>نقش:</strong> توسعه‌دهنده اصلی Desktop Client<br>
-                            <strong>معماری:</strong> WinForms Client با اتصال به Backend API
-                        </div>
-                        <div class="skills">
-                            <span class="skill-tag">C#</span>
-                            <span class="skill-tag">WinForms</span>
-                            <span class="skill-tag">REST API</span>
-                            <span class="skill-tag">JWT</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- پروژه 3: کلاینت Unity -->
-                <div class="project">
-                    <img src="image/rabintech-touch.jpg" alt="کلاینت Unity" class="project-image">
-                    <div class="project-content">
-                        <h3>🎮 کلاینت تاچ Unity برای دستگاه‌های شهربازی</h3>
-                        <p>
-                            طراحی و توسعه کلاینت Unity برای اجرا روی دستگاه‌های All-in-One تاچ در شهربازی.
-                            این نرم‌افزار با اتصال به سرور مرکزی، بازیکنان را از طریق دستبند NFC شناسایی می‌کند،
-                            موجودی کیف پول را بررسی می‌کند و مجوز شروع بازی را صادر می‌کند.
-                        </p>
-                        <div class="project-meta">
-                            <strong>کارفرما:</strong> شرکت رابین‌تک<br>
+                            <strong>معماری:</strong> WinForms Client با اتصال به Backend API</div>
+<ul class="tags" aria-label="فناوری‌ها">
+<li>
+<bdi>C#</bdi>
+</li>
+<li>
+<bdi>WinForms</bdi>
+</li>
+<li>
+<bdi>REST API</bdi>
+</li>
+<li>
+<bdi>JWT</bdi>
+</li>
+</ul>
+</details>
+</div>
+</article>
+<article class="archive-project" id="project-unity-client" data-category="unity backend">
+<div class="archive-visual">
+<img src="image/unity-touch-client.jpg" alt="کلاینت تاچ Unity برای دستگاه‌های شهربازی" loading="lazy" decoding="async" width="960" height="540">
+</div>
+<div class="archive-body">
+<p class="eyebrow">کلاینت تعاملی</p>
+<h3>کلاینت تاچ Unity برای دستگاه‌های شهربازی</h3>
+<p>طراحی و توسعه کلاینت Unity برای اجرا روی دستگاه‌های All-in-One تاچ در شهربازی. این نرم‌افزار با اتصال به سرور مرکزی، بازیکنان را از طریق دستبند NFC شناسایی می‌کند، موجودی کیف پول را بررسی می‌کند و مجوز شروع بازی را صادر می‌کند.</p>
+<details>
+<summary>نقش و جزئیات پروژه <span aria-hidden="true">＋</span>
+</summary>
+<div class="project-meta">
+<strong>کارفرما:</strong> شرکت رابین‌تک<br>
                             <strong>نقش:</strong> توسعه‌دهنده کلاینت Unity<br>
-                            <strong>پلتفرم:</strong> All-in-One Touch Devices
-                        </div>
-                        <div class="skills">
-                            <span class="skill-tag">Unity</span>
-                            <span class="skill-tag">C#</span>
-                            <span class="skill-tag">REST API</span>
-                            <span class="skill-tag">NFC</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- پروژه‌های بازی‌سازی Unity -->
-            <div class="card" style="animation-delay: 0.7s">
-                <h2 class="category-title">🎮 پروژه‌های بازی‌سازی Unity</h2>
-
-                <!-- پروژه: اسپید ران -->
-                <div class="project">
-                    <img src="image/speedrun.jpg" alt="بازی اسپید ران" class="project-image">
-                    <div class="project-content">
-                        <h3>🏎️ بازی اسپید ران (Speed Run)</h3>
-                        <p>
-                            توسعه بازی مسابقه‌ای تعاملی با اتصال به سخت‌افزار دستگاه آرکید. بازی شامل سه مسیر با طول‌های متفاوت، 
-                            سیستم کوین و اتصال به برد الکترونیک از طریق Serial Port است.
-                        </p>
-                        <div class="project-meta">
-                            <strong>کارفرما:</strong> شرکت رابین‌تک<br>
-                            <strong>نقش:</strong> بازی‌ساز و برنامه‌نویس میکروکنترلر
-                        </div>
-                        <div class="skills">
-                            <span class="skill-tag">Unity</span>
-                            <span class="skill-tag">C#</span>
-                            <span class="skill-tag">C++</span>
-                            <span class="skill-tag">AVR</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- پروژه: موتور بایک -->
-                <div class="project">
-                    <img src="image/motorbike.jpg" alt="بازی موتور بایک" class="project-image">
-                    <div class="project-content">
-                        <h3>🏍️ بازی موتور بایک مینی</h3>
-                        <p>
-                            بازی شبیه‌ساز موتورسواری با ۱۰ موتور متفاوت و ۴ مسیر با طول‌های مختلف. 
-                            طراحی کامل صحنه‌ها و اتصال به دستگاه فیزیکی موتور.
-                        </p>
-                        <div class="project-meta">
-                            <strong>کارفرما:</strong> شرکت رابین‌تک<br>
-                            <strong>نقش:</strong> بازی‌ساز و طراح صحنه
-                        </div>
-                        <div class="skills">
-                            <span class="skill-tag">Unity 3D</span>
-                            <span class="skill-tag">C#</span>
-                            <span class="skill-tag">Game Design</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- پروژه: مجیک وی -->
-                <div class="project">
-                    <img src="image/magicv.jpg" alt="بازی مجیک وی" class="project-image">
-                    <div class="project-content">
-                        <h3>✨ بازی مجیک وی (Magic V)</h3>
-                        <p>
-                            بازی تعاملی کف‌نگار با Kinect 2.0 برای تشخیص حرکات بدن. 
-                            تبدیل کف سالن به صفحه لمسی هوشمند با ۴ بازی مختلف.
-                        </p>
-                        <div class="project-meta">
-                            <strong>کارفرما:</strong> شرکت رابین‌تک<br>
+                            <strong>پلتفرم:</strong> All-in-One Touch Devices</div>
+<ul class="tags" aria-label="فناوری‌ها">
+<li>
+<bdi>Unity</bdi>
+</li>
+<li>
+<bdi>C#</bdi>
+</li>
+<li>
+<bdi>REST API</bdi>
+</li>
+<li>
+<bdi>NFC</bdi>
+</li>
+</ul>
+</details>
+</div>
+</article>
+<article class="archive-project" id="project-speed-run" data-category="unity hardware">
+<div class="archive-visual">
+<img src="image/speedrun.jpg" alt="بازی اسپید ران (Speed Run)" loading="lazy" decoding="async" width="960" height="540">
+</div>
+<div class="archive-body">
+<p class="eyebrow">بازی و سخت‌افزار</p>
+<h3>بازی اسپید ران (Speed Run)</h3>
+<p>توسعه بازی مسابقه‌ای تعاملی با اتصال به سخت‌افزار دستگاه آرکید. بازی شامل سه مسیر با طول‌های متفاوت، سیستم کوین و اتصال به برد الکترونیک از طریق Serial Port است.</p>
+<details>
+<summary>نقش و جزئیات پروژه <span aria-hidden="true">＋</span>
+</summary>
+<div class="project-meta">
+<strong>کارفرما:</strong> شرکت رابین‌تک<br>
+                            <strong>نقش:</strong> بازی‌ساز و برنامه‌نویس میکروکنترلر</div>
+<ul class="tags" aria-label="فناوری‌ها">
+<li>
+<bdi>Unity</bdi>
+</li>
+<li>
+<bdi>C#</bdi>
+</li>
+<li>
+<bdi>C++</bdi>
+</li>
+<li>
+<bdi>AVR</bdi>
+</li>
+</ul>
+</details>
+</div>
+</article>
+<article class="archive-project" id="project-motorbike" data-category="unity">
+<div class="archive-visual">
+<img src="image/motorbike.jpg" alt="بازی موتور بایک مینی" loading="lazy" decoding="async" width="960" height="540">
+</div>
+<div class="archive-body">
+<p class="eyebrow">بازی‌سازی</p>
+<h3>بازی موتور بایک مینی</h3>
+<p>بازی شبیه‌ساز موتورسواری با ۱۰ موتور متفاوت و ۴ مسیر با طول‌های مختلف. طراحی کامل صحنه‌ها و اتصال به دستگاه فیزیکی موتور.</p>
+<details>
+<summary>نقش و جزئیات پروژه <span aria-hidden="true">＋</span>
+</summary>
+<div class="project-meta">
+<strong>کارفرما:</strong> شرکت رابین‌تک<br>
+                            <strong>نقش:</strong> بازی‌ساز و طراح صحنه</div>
+<ul class="tags" aria-label="فناوری‌ها">
+<li>
+<bdi>Unity 3D</bdi>
+</li>
+<li>
+<bdi>C#</bdi>
+</li>
+<li>
+<bdi>Game Design</bdi>
+</li>
+</ul>
+</details>
+</div>
+</article>
+<article class="archive-project" id="project-magic-v" data-category="unity vision">
+<div class="archive-visual">
+<img src="image/magicv.jpg" alt="بازی مجیک وی (Magic V)" loading="lazy" decoding="async" width="960" height="540">
+</div>
+<div class="archive-body">
+<p class="eyebrow">بازی و بینایی ماشین</p>
+<h3>بازی مجیک وی (Magic V)</h3>
+<p>بازی تعاملی کف‌نگار با Kinect 2.0 برای تشخیص حرکات بدن. تبدیل کف سالن به صفحه لمسی هوشمند با ۴ بازی مختلف.</p>
+<details>
+<summary>نقش و جزئیات پروژه <span aria-hidden="true">＋</span>
+</summary>
+<div class="project-meta">
+<strong>کارفرما:</strong> شرکت رابین‌تک<br>
                             <strong>نقش:</strong> بازی‌ساز و برنامه‌نویس Kinect<br>
-                            <strong>لینک:</strong> <a href="https://rabintechco.com/sys/page_pr/pagea.php?i=30" target="_blank" style="color: #a78bfa;">صفحه محصول</a>
-                        </div>
-                        <div class="skills">
-                            <span class="skill-tag">Unity</span>
-                            <span class="skill-tag">Kinect SDK</span>
-                            <span class="skill-tag">Body Tracking</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- پروژه: سندباکس -->
-                <div class="project">
-                    <img src="image/sandbox.jpg" alt="بازی سندباکس" class="project-image">
-                    <div class="project-content">
-                        <h3>🏖️ بازی سندباکس تعاملی</h3>
-                        <p>
-                            بازی تعاملی روی شن با Kinect برای تشخیص عمق. 
-                            تبدیل جابه‌جایی شن به محیط بازی با ۶ صحنه مختلف.
-                        </p>
-                        <div class="project-meta">
-                            <strong>کارفرما:</strong> شرکت رابین‌تک<br>
+                            <strong>لینک:</strong> <a href="https://rabintechco.com/sys/page_pr/pagea.php?i=30" target="_blank" rel="noopener noreferrer">صفحه محصول</a>
+</div>
+<ul class="tags" aria-label="فناوری‌ها">
+<li>
+<bdi>Unity</bdi>
+</li>
+<li>
+<bdi>Kinect SDK</bdi>
+</li>
+<li>
+<bdi>Body Tracking</bdi>
+</li>
+</ul>
+</details>
+</div>
+</article>
+<article class="archive-project" id="project-sandbox" data-category="unity vision">
+<div class="archive-visual">
+<img src="image/sandbox.jpg" alt="بازی سندباکس تعاملی" loading="lazy" decoding="async" width="960" height="540">
+</div>
+<div class="archive-body">
+<p class="eyebrow">بازی و بینایی ماشین</p>
+<h3>بازی سندباکس تعاملی</h3>
+<p>بازی تعاملی روی شن با Kinect برای تشخیص عمق. تبدیل جابه‌جایی شن به محیط بازی با ۶ صحنه مختلف.</p>
+<details>
+<summary>نقش و جزئیات پروژه <span aria-hidden="true">＋</span>
+</summary>
+<div class="project-meta">
+<strong>کارفرما:</strong> شرکت رابین‌تک<br>
                             <strong>نقش:</strong> بازی‌ساز و برنامه‌نویس<br>
-                            <strong>لینک:</strong> <a href="https://rabintechco.com/sys/page_pr/pagea.php?i=28" target="_blank" style="color: #a78bfa;">صفحه محصول</a>
-                        </div>
-                        <div class="skills">
-                            <span class="skill-tag">Unity</span>
-                            <span class="skill-tag">Kinect</span>
-                            <span class="skill-tag">Depth Sensing</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- پروژه: نقاشی جادوئی -->
-                <div class="project">
-                    <img src="image/painting.jpg" alt="بازی نقاشی" class="project-image">
-                    <div class="project-content">
-                        <h3>🎨 بازی نقاشی جادوئی</h3>
-                        <p>
-                            بازی تعاملی نقاشی با قابلیت رنگ‌آمیزی جادوئی و مینی‌گیم. 
-                            بخشی از دستگاه هپی تایم.
-                        </p>
-                        <div class="project-meta">
-                            <strong>کارفرما:</strong> شرکت رابین‌تک<br>
-                            <strong>نقش:</strong> بازی‌ساز و برنامه‌نویس
-                        </div>
-                        <div class="skills">
-                            <span class="skill-tag">Unity</span>
-                            <span class="skill-tag">C#</span>
-                            <span class="skill-tag">Game Design</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- پروژه: اینفینیتی -->
-                <div class="project">
-                    <img src="image/infinity.jpg" alt="دستگاه اینفینیتی" class="project-image">
-                    <div class="project-content">
-                        <h3>♾️ سیستم بازی کامل اینفینیتی</h3>
-                        <p>
-                            سیستم کامل شامل ۳ بازی با منو، لیدربورد آنلاین و Socket Programming 
-                            برای مدیریت دستگاه‌ها.
-                        </p>
-                        <div class="project-meta">
-                            <strong>کارفرما:</strong> شرکت رابین‌تک<br>
+                            <strong>لینک:</strong> <a href="https://rabintechco.com/sys/page_pr/pagea.php?i=28" target="_blank" rel="noopener noreferrer">صفحه محصول</a>
+</div>
+<ul class="tags" aria-label="فناوری‌ها">
+<li>
+<bdi>Unity</bdi>
+</li>
+<li>
+<bdi>Kinect</bdi>
+</li>
+<li>
+<bdi>Depth Sensing</bdi>
+</li>
+</ul>
+</details>
+</div>
+</article>
+<article class="archive-project" id="project-painting" data-category="unity">
+<div class="archive-visual">
+<img src="image/painting.jpg" alt="بازی نقاشی جادوئی" loading="lazy" decoding="async" width="960" height="540">
+</div>
+<div class="archive-body">
+<p class="eyebrow">بازی‌سازی</p>
+<h3>بازی نقاشی جادوئی</h3>
+<p>بازی تعاملی نقاشی با قابلیت رنگ‌آمیزی جادوئی و مینی‌گیم. بخشی از دستگاه هپی تایم.</p>
+<details>
+<summary>نقش و جزئیات پروژه <span aria-hidden="true">＋</span>
+</summary>
+<div class="project-meta">
+<strong>کارفرما:</strong> شرکت رابین‌تک<br>
+                            <strong>نقش:</strong> بازی‌ساز و برنامه‌نویس</div>
+<ul class="tags" aria-label="فناوری‌ها">
+<li>
+<bdi>Unity</bdi>
+</li>
+<li>
+<bdi>C#</bdi>
+</li>
+<li>
+<bdi>Game Design</bdi>
+</li>
+</ul>
+</details>
+</div>
+</article>
+<article class="archive-project" id="project-infinity-games" data-category="unity backend">
+<div class="archive-visual">
+<img src="image/infinity.jpg" alt="سیستم بازی کامل اینفینیتی" loading="lazy" decoding="async" width="960" height="540">
+</div>
+<div class="archive-body">
+<p class="eyebrow">بازی و شبکه</p>
+<h3>سیستم بازی کامل اینفینیتی</h3>
+<p>سیستم کامل شامل ۳ بازی با منو، لیدربورد آنلاین و Socket Programming برای مدیریت دستگاه‌ها.</p>
+<details>
+<summary>نقش و جزئیات پروژه <span aria-hidden="true">＋</span>
+</summary>
+<div class="project-meta">
+<strong>کارفرما:</strong> شرکت رابین‌تک<br>
                             <strong>نقش:</strong> بازی‌ساز و برنامه‌نویس Backend<br>
-                            <strong>لینک:</strong> <a href="https://rabintechco.com/sys/page_pr/pagea.php?i=23" target="_blank" style="color: #a78bfa;">صفحه محصول</a>
-                        </div>
-                        <div class="skills">
-                            <span class="skill-tag">Unity</span>
-                            <span class="skill-tag">Socket Programming</span>
-                            <span class="skill-tag">Web API</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- پروژه: فانی بال -->
-                <div class="project">
-                    <img src="image/funnyball.jpg" alt="بازی فانی بال" class="project-image">
-                    <div class="project-content">
-                        <h3>⚽ بازی فانی بال</h3>
-                        <p>
-                            بازنویسی کامل با OpenCV برای تشخیص برخورد توپ. 
-                            اجرا روی دیوار استخر توپ و دستگاه تاچ با ۶ بازی مختلف.
-                        </p>
-                        <div class="project-meta">
-                            <strong>کارفرما:</strong> شرکت رابین‌تک<br>
+                            <strong>لینک:</strong> <a href="https://rabintechco.com/sys/page_pr/pagea.php?i=23" target="_blank" rel="noopener noreferrer">صفحه محصول</a>
+</div>
+<ul class="tags" aria-label="فناوری‌ها">
+<li>
+<bdi>Unity</bdi>
+</li>
+<li>
+<bdi>Socket Programming</bdi>
+</li>
+<li>
+<bdi>Web API</bdi>
+</li>
+</ul>
+</details>
+</div>
+</article>
+<article class="archive-project" id="project-funnyball" data-category="unity vision">
+<div class="archive-visual">
+<img src="image/funnyball.jpg" alt="بازی فانی بال" loading="lazy" decoding="async" width="960" height="540">
+</div>
+<div class="archive-body">
+<p class="eyebrow">بینایی ماشین</p>
+<h3>بازی فانی بال</h3>
+<p>بازنویسی کامل با OpenCV برای تشخیص برخورد توپ. اجرا روی دیوار استخر توپ و دستگاه تاچ با ۶ بازی مختلف.</p>
+<details>
+<summary>نقش و جزئیات پروژه <span aria-hidden="true">＋</span>
+</summary>
+<div class="project-meta">
+<strong>کارفرما:</strong> شرکت رابین‌تک<br>
                             <strong>نقش:</strong> بازی‌ساز و برنامه‌نویس Computer Vision<br>
-                            <strong>لینک:</strong> <a href="https://rabintechco.com/sys/page_pr/pagea.php?i=13" target="_blank" style="color: #a78bfa;">صفحه محصول</a>
-                        </div>
-                        <div class="skills">
-                            <span class="skill-tag">Unity</span>
-                            <span class="skill-tag">OpenCV</span>
-                            <span class="skill-tag">Computer Vision</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- پروژه: شوت فری -->
-                <div class="project">
-                    <img src="image/shootfree.jpg" alt="بازی شوت فری" class="project-image">
-                    <div class="project-content">
-                        <h3>⚽ بازی شوت فری تعاملی</h3>
-                        <p>
-                            بازی پنالتی و دوز با دوربین برای تشخیص توپ واقعی. 
-                            بازیکنان با شوت به دیوار، انتخاب و هدف‌گیری می‌کنند.
-                        </p>
-                        <div class="project-meta">
-                            <strong>کارفرما:</strong> شرکت رابین‌تک<br>
-                            <strong>نقش:</strong> بازی‌ساز و برنامه‌نویس
-                        </div>
-                        <div class="skills">
-                            <span class="skill-tag">Unity</span>
-                            <span class="skill-tag">Computer Vision</span>
-                            <span class="skill-tag">OpenCV</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- پروژه‌های سخت‌افزار -->
-            <div class="card" style="animation-delay: 0.8s">
-                <h2 class="category-title">🔧 پروژه‌های سخت‌افزار و نرم‌افزار</h2>
-
-                <!-- پروژه: آرکید -->
-                <div class="project">
-                    <img src="image/arcade.jpg" alt="دسته آرکید" class="project-image">
-                    <div class="project-content">
-                        <h3>🎮 تبدیل موتور به دسته آرکید</h3>
-                        <p>
-                            تبدیل مکانیک موتور به Joystick استاندارد با AVR و USB HID. 
-                            سازگار با تمام بازی‌های Windows.
-                        </p>
-                        <div class="project-meta">
-                            <strong>کارفرما:</strong> شرکت رابین‌تک<br>
+                            <strong>لینک:</strong> <a href="https://rabintechco.com/sys/page_pr/pagea.php?i=13" target="_blank" rel="noopener noreferrer">صفحه محصول</a>
+</div>
+<ul class="tags" aria-label="فناوری‌ها">
+<li>
+<bdi>Unity</bdi>
+</li>
+<li>
+<bdi>OpenCV</bdi>
+</li>
+<li>
+<bdi>Computer Vision</bdi>
+</li>
+</ul>
+</details>
+</div>
+</article>
+<article class="archive-project" id="project-shoot-free" data-category="unity vision">
+<div class="archive-visual">
+<img src="image/shootfree.jpg" alt="بازی شوت فری تعاملی" loading="lazy" decoding="async" width="960" height="540">
+</div>
+<div class="archive-body">
+<p class="eyebrow">بینایی ماشین</p>
+<h3>بازی شوت فری تعاملی</h3>
+<p>بازی پنالتی و دوز با دوربین برای تشخیص توپ واقعی. بازیکنان با شوت به دیوار، انتخاب و هدف‌گیری می‌کنند.</p>
+<details>
+<summary>نقش و جزئیات پروژه <span aria-hidden="true">＋</span>
+</summary>
+<div class="project-meta">
+<strong>کارفرما:</strong> شرکت رابین‌تک<br>
+                            <strong>نقش:</strong> بازی‌ساز و برنامه‌نویس</div>
+<ul class="tags" aria-label="فناوری‌ها">
+<li>
+<bdi>Unity</bdi>
+</li>
+<li>
+<bdi>Computer Vision</bdi>
+</li>
+<li>
+<bdi>OpenCV</bdi>
+</li>
+</ul>
+</details>
+</div>
+</article>
+<article class="archive-project" id="project-arcade" data-category="hardware">
+<div class="archive-visual">
+<img src="image/arcade.jpg" alt="تبدیل موتور به دسته آرکید" loading="lazy" decoding="async" width="960" height="540">
+</div>
+<div class="archive-body">
+<p class="eyebrow">سخت‌افزار</p>
+<h3>تبدیل موتور به دسته آرکید</h3>
+<p>تبدیل مکانیک موتور به Joystick استاندارد با AVR و USB HID. سازگار با تمام بازی‌های Windows.</p>
+<details>
+<summary>نقش و جزئیات پروژه <span aria-hidden="true">＋</span>
+</summary>
+<div class="project-meta">
+<strong>کارفرما:</strong> شرکت رابین‌تک<br>
                             <strong>نقش:</strong> برنامه‌نویس میکروکنترلر<br>
-                            <strong>لینک:</strong> <a href="https://rabintechco.com/sys/page_pr/pagea.php?i=27" target="_blank" style="color: #a78bfa;">صفحه محصول</a>
-                        </div>
-                        <div class="skills">
-                            <span class="skill-tag">C++</span>
-                            <span class="skill-tag">AVR</span>
-                            <span class="skill-tag">USB HID</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- پروژه: فرمان -->
-                <div class="project">
-                    <img src="image/steering.jpg" alt="فرمان سفارشی" class="project-image">
-                    <div class="project-content">
-                        <h3>🏎️ ساخت فرمان سفارشی</h3>
-                        <p>
-                            فرمان بازی با گاز، ترمز و ۱۰ دکمه. 
-                            تبدیل سیگنال‌های آنالوگ به Joystick دیجیتال.
-                        </p>
-                        <div class="project-meta">
-                            <strong>کارفرما:</strong> شرکت رابین‌تک<br>
-                            <strong>نقش:</strong> برنامه‌نویس
-                        </div>
-                        <div class="skills">
-                            <span class="skill-tag">C#</span>
-                            <span class="skill-tag">C++</span>
-                            <span class="skill-tag">AVR</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- پروژه: سامانه پلاک -->
-                <div class="project">
-                    <div class="project-content">
-                        <h3>🏷️ سامانه ثبت پلاک و حکاکی لیزر</h3>
-                        <p>
-                            نرم‌افزار مدیریت دستگاه‌ها با اختصاص پلاک یکتا و 
-                            تولید فایل وکتور برای حکاکی لیزر.
-                        </p>
-                        <div class="project-meta">
-                            <strong>کارفرما:</strong> شرکت رابین‌تک<br>
-                            <strong>نقش:</strong> توسعه‌دهنده نرم‌افزار
-                        </div>
-                        <div class="skills">
-                            <span class="skill-tag">C#</span>
-                            <span class="skill-tag">Vector Graphics</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- پروژه: مدیریت -->
-                <div class="project">
-                    <div class="project-content">
-                        <h3>🖥️ نرم‌افزار مدیریت و اتوماسیون</h3>
-                        <p>
-                            اجرای خودکار رفتارها، نگه‌داشتن فوکوس و 
-                            محدودسازی دسترسی برای دستگاه‌های آرکید.
-                        </p>
-                        <div class="project-meta">
-                            <strong>کارفرما:</strong> شرکت رابین‌تک<br>
-                            <strong>نقش:</strong> توسعه‌دهنده
-                        </div>
-                        <div class="skills">
-                            <span class="skill-tag">C#</span>
-                            <span class="skill-tag">Windows API</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- پروژه: تاچ بزرگ -->
-                <div class="project">
-                    <img src="image/touch-surface.jpg" alt="سطح تاچ" class="project-image">
-                    <div class="project-content">
-                        <h3>📡 تبدیل سطوح بزرگ به تاچ</h3>
-                        <p>
-                            سرویس مبتنی بر لیزر اسکنر برای تبدیل دیوار/زمین به سطح لمسی. 
-                            تست موفق تا ۱۲ متر.
-                        </p>
-                        <div class="project-meta">
-                            <strong>کارفرما:</strong> شرکت رابین‌تک<br>
-                            <strong>نقش:</strong> توسعه‌دهنده
-                        </div>
-                        <div class="skills">
-                            <span class="skill-tag">C#</span>
-                            <span class="skill-tag">Laser Scanner</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- پروژه: کنتور -->
-                <div class="project">
-                    <div class="project-content">
-                        <h3>📊 کنتور اولتراسونیک</h3>
-                        <p>
-                            نرم‌افزار اندازه‌گیری دبی گاز با STM32U4 و سنسورهای اولتراسونیک. 
-                            تأییدشده توسط شرکت اندازه‌گیری ساری.
-                        </p>
-                        <div class="project-meta">
-                            <strong>کارفرما:</strong> شرکت اندازه‌گیری ساری<br>
-                            <strong>نقش:</strong> برنامه‌نویس
-                        </div>
-                        <div class="skills">
-                            <span class="skill-tag">C++</span>
-                            <span class="skill-tag">STM32</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <!-- فوتر -->
-    <footer>
-        <p>© 2026 مهر حسین | Backend Developer, Unity Game Developer & Robotics Instructor</p>
-        <p style="margin-top: 10px; font-size: 0.9rem;">تمامی حقوق محفوظ است</p>
-    </footer>
+                            <strong>لینک:</strong> <a href="https://rabintechco.com/sys/page_pr/pagea.php?i=27" target="_blank" rel="noopener noreferrer">صفحه محصول</a>
+</div>
+<ul class="tags" aria-label="فناوری‌ها">
+<li>
+<bdi>C++</bdi>
+</li>
+<li>
+<bdi>AVR</bdi>
+</li>
+<li>
+<bdi>USB HID</bdi>
+</li>
+</ul>
+</details>
+</div>
+</article>
+<article class="archive-project" id="project-steering" data-category="hardware">
+<div class="archive-visual">
+<img src="image/steering.jpg" alt="ساخت فرمان سفارشی" loading="lazy" decoding="async" width="960" height="540">
+</div>
+<div class="archive-body">
+<p class="eyebrow">سخت‌افزار</p>
+<h3>ساخت فرمان سفارشی</h3>
+<p>فرمان بازی با گاز، ترمز و ۱۰ دکمه. تبدیل سیگنال‌های آنالوگ به Joystick دیجیتال.</p>
+<details>
+<summary>نقش و جزئیات پروژه <span aria-hidden="true">＋</span>
+</summary>
+<div class="project-meta">
+<strong>کارفرما:</strong> شرکت رابین‌تک<br>
+                            <strong>نقش:</strong> برنامه‌نویس</div>
+<ul class="tags" aria-label="فناوری‌ها">
+<li>
+<bdi>C#</bdi>
+</li>
+<li>
+<bdi>C++</bdi>
+</li>
+<li>
+<bdi>AVR</bdi>
+</li>
+</ul>
+</details>
+</div>
+</article>
+<article class="archive-project" id="project-laser-plates" data-category="backend hardware">
+<div class="archive-visual">
+<div class="project-type" aria-hidden="true">
+<span>14</span>
+<bdi>VECTOR</bdi>
+</div>
+</div>
+<div class="archive-body">
+<p class="eyebrow">نرم‌افزار صنعتی</p>
+<h3>سامانه ثبت پلاک و حکاکی لیزر</h3>
+<p>نرم‌افزار مدیریت دستگاه‌ها با اختصاص پلاک یکتا و تولید فایل وکتور برای حکاکی لیزر.</p>
+<details>
+<summary>نقش و جزئیات پروژه <span aria-hidden="true">＋</span>
+</summary>
+<div class="project-meta">
+<strong>کارفرما:</strong> شرکت رابین‌تک<br>
+                            <strong>نقش:</strong> توسعه‌دهنده نرم‌افزار</div>
+<ul class="tags" aria-label="فناوری‌ها">
+<li>
+<bdi>C#</bdi>
+</li>
+<li>
+<bdi>Vector Graphics</bdi>
+</li>
+</ul>
+</details>
+</div>
+</article>
+<article class="archive-project" id="project-automation" data-category="backend">
+<div class="archive-visual">
+<div class="project-type" aria-hidden="true">
+<span>15</span>
+<bdi>DESKTOP</bdi>
+</div>
+</div>
+<div class="archive-body">
+<p class="eyebrow">اتوماسیون</p>
+<h3>نرم‌افزار مدیریت و اتوماسیون</h3>
+<p>اجرای خودکار رفتارها، نگه‌داشتن فوکوس و محدودسازی دسترسی برای دستگاه‌های آرکید.</p>
+<details>
+<summary>نقش و جزئیات پروژه <span aria-hidden="true">＋</span>
+</summary>
+<div class="project-meta">
+<strong>کارفرما:</strong> شرکت رابین‌تک<br>
+                            <strong>نقش:</strong> توسعه‌دهنده</div>
+<ul class="tags" aria-label="فناوری‌ها">
+<li>
+<bdi>C#</bdi>
+</li>
+<li>
+<bdi>Windows API</bdi>
+</li>
+</ul>
+</details>
+</div>
+</article>
+<article class="archive-project" id="project-touch-surfaces" data-category="hardware vision">
+<div class="archive-visual">
+<img src="image/touch-surface.jpg" alt="تبدیل سطوح بزرگ به تاچ" loading="lazy" decoding="async" width="960" height="540">
+</div>
+<div class="archive-body">
+<p class="eyebrow">سیستم تعاملی</p>
+<h3>تبدیل سطوح بزرگ به تاچ</h3>
+<p>سرویس مبتنی بر لیزر اسکنر برای تبدیل دیوار/زمین به سطح لمسی. تست موفق تا ۱۲ متر.</p>
+<details>
+<summary>نقش و جزئیات پروژه <span aria-hidden="true">＋</span>
+</summary>
+<div class="project-meta">
+<strong>کارفرما:</strong> شرکت رابین‌تک<br>
+                            <strong>نقش:</strong> توسعه‌دهنده</div>
+<ul class="tags" aria-label="فناوری‌ها">
+<li>
+<bdi>C#</bdi>
+</li>
+<li>
+<bdi>Laser Scanner</bdi>
+</li>
+</ul>
+</details>
+</div>
+</article>
+<article class="archive-project" id="project-ultrasonic" data-category="hardware">
+<div class="archive-visual">
+<div class="project-type" aria-hidden="true">
+<span>17</span>
+<bdi>EMBEDDED</bdi>
+</div>
+</div>
+<div class="archive-body">
+<p class="eyebrow">سیستم نهفته</p>
+<h3>کنتور اولتراسونیک</h3>
+<p>نرم‌افزار اندازه‌گیری دبی گاز با STM32U4 و سنسورهای اولتراسونیک. تأییدشده توسط شرکت اندازه‌گیری ساری. بخش نرم‌افزاری شامل ارسال و دریافت موج، فیلترینگ سیگنال و محاسبه دبی عبوری گاز روی میکروکنترلر ARM است.</p>
+<details>
+<summary>نقش و جزئیات پروژه <span aria-hidden="true">＋</span>
+</summary>
+<div class="project-meta">
+<strong>کارفرما:</strong> شرکت اندازه‌گیری ساری<br>
+                            <strong>نقش:</strong> برنامه‌نویس</div>
+<ul class="tags" aria-label="فناوری‌ها">
+<li>
+<bdi>C++</bdi>
+</li>
+<li>
+<bdi>STM32</bdi>
+</li>
+</ul>
+</details>
+</div>
+</article>
+<article class="archive-project" id="project-cnc-control" data-category="hardware">
+<div class="archive-visual">
+<div class="project-type" aria-hidden="true">
+<span>18</span>
+<bdi>CNC</bdi>
+</div>
+</div>
+<div class="archive-body">
+<p class="eyebrow">کنترل صنعتی</p>
+<h3>کنترل دستگاه CNC برش یونولیت</h3>
+<p>برنامه‌نویسی بخش کنترل و هدایت دستگاه CNC برش یونولیت سقفی؛ کنترل حرکت و عملیات برش طبق نقشه برای شرکت دژیم فوم در بشل قائم‌شهر.</p>
+<details>
+<summary>نقش و جزئیات پروژه <span aria-hidden="true">＋</span>
+</summary>
+<div class="project-meta">
+<strong>کارفرما:</strong> شرکت دژیم فوم<br>
+<strong>نقش:</strong> برنامه‌نویسی کنترل حرکت و برش</div>
+<ul class="tags" aria-label="فناوری‌ها">
+<li>
+<bdi>CNC</bdi>
+</li>
+<li>
+<bdi>Motion Control</bdi>
+</li>
+</ul>
+</details>
+</div>
+</article>
+<article class="archive-project" id="project-greenhouse" data-category="hardware">
+<div class="archive-visual">
+<div class="project-type" aria-hidden="true">
+<span>19</span>
+<bdi>CONTROL</bdi>
+</div>
+</div>
+<div class="archive-body">
+<p class="eyebrow">اتوماسیون صنعتی</p>
+<h3>کنترل خودکار گلخانه و سالن قارچ</h3>
+<p>راه‌اندازی سیستم مدیریت خودکار هوادهی، دما و رطوبت برای سالن‌های پرورش قارچ و گلخانه‌ها؛ اتصال منطق کنترلی به نیازهای محیط کشت.</p>
+<details>
+<summary>نقش و جزئیات پروژه <span aria-hidden="true">＋</span>
+</summary>
+<div class="project-meta">
+<strong>حوزه:</strong> اتوماسیون محیط کشت<br>
+<strong>نقش:</strong> راه‌اندازی سیستم کنترل خودکار</div>
+<ul class="tags" aria-label="فناوری‌ها">
+<li>
+<bdi>Automation</bdi>
+</li>
+<li>
+<bdi>Sensors</bdi>
+</li>
+<li>
+<bdi>Control Systems</bdi>
+</li>
+</ul>
+</details>
+</div>
+</article>
+<article class="archive-project" id="project-environment-game" data-category="unity">
+<div class="archive-visual">
+<div class="project-type" aria-hidden="true">
+<span>20</span>
+<bdi>PLAY</bdi>
+</div>
+</div>
+<div class="archive-body">
+<p class="eyebrow">بازی آموزشی</p>
+<h3>بازی همیار محیط زیست</h3>
+<p>ساخت بازی «همیار محیط زیست» برای اداره کل حفاظت محیط زیست مازندران؛ نمونه‌ای از به‌کارگیری بازی در آموزش و آگاهی‌بخشی محیط زیست.</p>
+<details>
+<summary>نقش و جزئیات پروژه <span aria-hidden="true">＋</span>
+</summary>
+<div class="project-meta">
+<strong>کارفرما:</strong> اداره کل حفاظت محیط زیست مازندران<br>
+<strong>نقش:</strong> ساخت بازی</div>
+<ul class="tags" aria-label="فناوری‌ها">
+<li>
+<bdi>Educational Game</bdi>
+</li>
+<li>
+<bdi>Game Development</bdi>
+</li>
+</ul>
+</details>
+</div>
+</article>
+</div>
+</section>
+<section id="teaching" class="section shell" aria-labelledby="teaching-title">
+<div class="section-heading">
+<div>
+<p class="eyebrow">۰۵ / آموزش و انتقال تجربه</p>
+<h2 id="teaching-title">ساختن، در کنار آموزش دادن.</h2>
+</div>
+<p class="section-intro">تدریس برنامه‌نویسی، بازی‌سازی و رباتیک؛ همراه با آموزش تیم‌های شرکت‌کننده در مسابقات کشوری.</p>
+</div>
+<div class="teaching-layout">
+<div>
+<h3>مراکز و موضوعات تدریس</h3>
+<ul class="teaching-places">
+<li>دانشگاه آزاد اسلامی</li>
+<li>دانشگاه سما ساری</li>
+<li>دانشگاه پیام نور ساری</li>
+<li>دانشگاه علم و فناوری مازندران</li>
+<li>آموزشگاه‌های مطرح ساری</li>
+<li>مدرسه تیزهوشان ناحیه ۲ ساری</li>
+</ul>
+<p class="course-list">برنامه‌نویسی پیشرفته · C و C++ · C# و Java · Python · بازی‌سازی با Unity · یادگیری ماشین و یادگیری عمیق · اپلیکیشن Windows و Android</p>
+</div>
+<aside class="teaching-outcomes" aria-label="دستاورد تیم‌های آموزش‌دیده">
+<p class="eyebrow">نتیجه آموزش تیم‌ها</p>
+<strong>دو مقام اول کشوری</strong>
+<p>تیم‌های دانشگاه پیام نور ساری در مسابقات <bdi>PNU Open 2011</bdi>، در دو رشته ربات جست‌وجوگر و مسیریاب ویژه.</p>
+<hr>
+<p>مقام دوم <bdi>PNU Open</bdi> و مقام سوم مسابقات سما شیراز، توسط تیم‌های آموزش‌دیده دانشگاه سما ساری.</p>
+</aside>
+</div>
+</section>
+<section id="credentials" class="section section-lined shell" aria-labelledby="credentials-title">
+<div class="section-heading">
+<div>
+<p class="eyebrow">۰۶ / افتخارات و تحصیلات</p>
+<h2 id="credentials-title">پشتوانه یک مسیر فنی.</h2>
+</div>
+</div>
+<div class="credentials-layout">
+<div class="awards-list">
+<article>
+<span class="award-rank">۰۱</span>
+<div>
+<h3>مقام اول جشنواره جوان خوارزمی</h3>
+<p>۱۳۸۹</p>
+</div>
+</article>
+<article>
+<span class="award-rank">۰۱</span>
+<div>
+<h3>مقام اول رباتیک بین‌المللی امیرکبیر</h3>
+<p>دانشگاه صنعتی امیرکبیر · ۱۳۸۹</p>
+</div>
+</article>
+<article>
+<span class="award-rank">۰۱</span>
+<div>
+<h3>مقام اول رباتیک کشوری دانشگاه بابل</h3>
+<p>دانشگاه صنعتی نوشیروانی بابل · ۱۳۸۹</p>
+</div>
+</article>
+<article>
+<span class="award-rank">۰۲</span>
+<div>
+<h3>مقام دوم مسابقات رباتیک دانشگاه اصفهان</h3>
+<p>۱۳۸۹</p>
+</div>
+</article>
+<article>
+<span class="award-rank">۰۳</span>
+<div>
+<h3>مقام سوم مسابقات رباتیک سما شیراز</h3>
+<p>نقش: مربی تیم</p>
+</div>
+</article>
+<article>
+<span class="award-rank">۰۲</span>
+<div>
+<h3>مقام دوم مسابقات کشوری PNU Open</h3>
+<p>نقش: مربی تیم</p>
+</div>
+</article>
+</div>
+<aside class="education">
+<p class="eyebrow">تحصیلات</p>
+<span class="degree-symbol" aria-hidden="true">M.Sc.</span>
+<h3>کارشناسی ارشد<br>مهندسی کامپیوتر</h3>
+<p>گرایش نرم‌افزار<br>دانشگاه آزاد اسلامی</p>
+<div class="gpa">
+<span>معدل</span>
+<strong>۱۹٫۱۱ <small>از ۲۰</small>
+</strong>
+</div>
+</aside>
+</div>
+</section>
+<section id="contact" class="contact-section" aria-labelledby="contact-title">
+<div class="shell contact-inner">
+<div>
+<p class="eyebrow">۰۷ / شروع یک گفت‌وگو</p>
+<h2 id="contact-title">ایده‌ای دارید؟<br>
+<span>بیایید درباره ساختنش صحبت کنیم.</span>
+</h2>
+<p>برای گفت‌وگو درباره توسعه نرم‌افزار، بازی‌های تعاملی و راه‌حل‌های متصل به سخت‌افزار، از طریق ایمیل در ارتباط باشیم.</p>
+<a class="contact-email" href="mailto:mehrhossin@yahoo.com">
+<bdi>mehrhossin@yahoo.com</bdi> <span aria-hidden="true">↗</span>
+</a>
+</div>
+<div class="contact-links">
+<a href="https://github.com/mehrhossin" target="_blank" rel="noopener noreferrer">
+<bdi>GitHub</bdi>
+<span aria-hidden="true">↗</span>
+</a>
+<a href="https://www.mehrhossin.ir" target="_blank" rel="noopener noreferrer">
+<bdi>mehrhossin.ir</bdi>
+<span aria-hidden="true">↗</span>
+</a>
+<button class="print-button" type="button" hidden>چاپ / ذخیره رزومه PDF <span aria-hidden="true">↓</span>
+</button>
+<noscript>
+<p>برای ذخیره PDF از گزینه چاپ مرورگر استفاده کنید.</p>
+</noscript>
+</div>
+</div>
+</section>
+</main>
+<footer class="site-footer shell">
+<a class="footer-name" href="index.html">مهر حسین<span>توسعه‌دهنده نرم‌افزار و سیستم‌های تعاملی</span>
+</a>
+<p>© ۲۰۲۶ · تمامی حقوق محفوظ است</p>
+<a href="#main">بازگشت به بالا ↑</a>
+</footer>
 </body>
 </html>
