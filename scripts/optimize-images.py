@@ -21,7 +21,7 @@ def main():
                 height = round(image.height * width / image.width)
                 output = source.with_name(f"{source.stem}-{width}.webp")
                 image.resize((width, height), Image.Resampling.LANCZOS).save(
-                    output, "WEBP", quality=82, method=6
+                    output, "WEBP", quality=76, method=6
                 )
             largest_bytes += output.stat().st_size
     print(f"Original JPEGs: {original_bytes:,} bytes")
