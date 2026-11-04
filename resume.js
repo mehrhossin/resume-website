@@ -1,4 +1,4 @@
-(() => {
+() => {
   'use strict';
   const nav = document.querySelector('#main-nav');
   const menu = document.querySelector('.menu-toggle');
@@ -82,5 +82,10 @@
   document.querySelectorAll('.print-button').forEach((button) => {
     button.addEventListener('click', () => window.print());
     button.hidden = false;
+  });
+
+  document.querySelectorAll('picture img').forEach((img) => {
+    const done = () => img.classList.add('loaded');
+    if (img.complete) done(); else { img.addEventListener('load', done); img.addEventListener('error', done); }
   });
 })();
